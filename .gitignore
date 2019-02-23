@@ -1,0 +1,7 @@
+*.pyc
+__pycache__/
+.project
+.pydevproject
+db.sqlite3
+pustakalaywebsite/settings/__init__.py
+pustakalaywebsite/settings/secrets*.py

@@ -1,0 +1,6 @@
+{% if not request.user.is_authenticated%}
+<p>User is not logged in.</p>
+{% endif%}
+<form method="POST">
+	{% csrf_token %} {{ form }} <input type="submit" value="Login">
+</form>
