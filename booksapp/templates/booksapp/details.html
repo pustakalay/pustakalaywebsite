@@ -1,0 +1,15 @@
+<h1>{{ object.title }}</h1>
+<ul>
+    <li>author : {{ object.author }}</li>
+    <li>translatedBy : {{ object.translatedBy }}</li>
+    <li>description : {{ object.description }}</li>
+    <li>publisher : {{ object.publisher }}</li>
+    <li>dimension : {{ object.dimension }}</li>
+    <li>numberOfPages : {{ object.numberOfPages }}</li>
+    <li>format : {{ object.format }}</li>
+    <li>language : {{ object.language }}</li>
+    <li>price : {{ object.price }}</li>
+    <li>rank : {{ object.rank }}</li>
+</ul>
+<img src={{ object.image_front.url }} class ='img-fluid'/>
+<img src={{ object.image_back.url }} class ='img-fluid'/>
