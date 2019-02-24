@@ -2,6 +2,10 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import random
 import os
+from django.db import models
+from django.db.models.signals import pre_save, post_save
+from .utils import unique_slug_generator    
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -10,10 +14,10 @@ def get_filename_ext(filepath):
 
 
 def upload_image_path(instance, filename):
-    new_filename = random.randint(1,3910209312)
+    new_filename = random.randint(1, 3910209312)
     name, ext = get_filename_ext(filename)
     final_filename = '{new_filename}{ext}'.format(new_filename=new_filename, ext=ext)
-    return "books/{final_filename}".format( 
+    return "books/{final_filename}".format(
             final_filename=final_filename
             )
 
@@ -22,6 +26,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return "/books/{slug}/".format(slug=self.slug)
 
     LANGUAGE_CHOICES = (
         ('HINDI', 'Hindi'),
@@ -34,6 +41,7 @@ class Book(models.Model):
         ('EBOOK', 'Ebook')
     )
     title = models.CharField(max_length=200)
+    slug = models.SlugField(blank=True, unique=True)
     displayTitle = models.CharField(max_length=200, blank=True)
     author = models.CharField(max_length=200)
     language = models.CharField(max_length=200, choices=LANGUAGE_CHOICES, default='English')
@@ -66,3 +74,12 @@ class Book(models.Model):
     aboutAuthor = models.TextField(max_length=20000, blank=True)
     image_front = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     image_back = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+
+
+def book_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+    instance.rank = (0.2 * instance.numberOfCopiesSold) + (0.4 * instance.pustakalayRating) + (0.1 * instance.avgcustomerRating) + (0.3 * instance.newArrival)
+
+
+pre_save.connect(book_pre_save_receiver, sender=Book)

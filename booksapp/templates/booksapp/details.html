@@ -11,5 +11,9 @@
     <li>price : {{ object.price }}</li>
     <li>rank : {{ object.rank }}</li>
 </ul>
-<img src={{ object.image_front.url }} class ='img-fluid'/>
-<img src={{ object.image_back.url }} class ='img-fluid'/>
+{% if object.image_front %}
+    <img src='{{ object.image_front.url }}' class ='img-fluid'/>
+{% endif %}
+{% if object.image_back %}
+    <img src='{{ object.image_back.url }}' class ='img-fluid'/>
+{% endif %}

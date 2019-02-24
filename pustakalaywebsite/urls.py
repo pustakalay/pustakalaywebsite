@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from .views import home_page, contact_page, login_page, register_page
 from django.contrib.auth import views as auth_views
-from booksapp.views import BookListView, BookDetailView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,8 +27,7 @@ urlpatterns = [
     url(r'^login/$', login_page, name='login_page'),
     url(r'^register/$', register_page, name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
-    url(r'^books/$', BookListView.as_view(), name='bookslist'),
-    url(r'^books/(?P<pk>\d+)/$', BookDetailView.as_view(), name='booksdetail'),
+    url('books/', include('booksapp.urls')),
 ]
 
 if settings.DEBUG:
