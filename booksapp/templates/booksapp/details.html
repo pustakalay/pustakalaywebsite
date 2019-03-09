@@ -3,6 +3,7 @@
 
 {% block content %}
 <h1>{{ object.title }}</h1>
+{% include 'booksapp/snippets/update-cart.html' with book=object cart=cart in_cart=False %}
 <ul>
     <li>author : {{ object.author }}</li>
     <li>translatedBy : {{ object.translatedBy }}</li>

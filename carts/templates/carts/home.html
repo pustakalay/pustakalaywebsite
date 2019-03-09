@@ -1,5 +1,41 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 <h1>Cart</h1>
+
+{% if cart.books.exists %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Book Name</th>
+      <th>Book Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in cart.books.all %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td><a href='{{ book.get_absolute_url }}'>{{ book.title }}
+      {% include 'booksapp/snippets/update-cart.html' with product=product cart=cart in_cart=True %}
+      <td>{{ book.price }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Subtotal</b> {{ cart.subtotal }}</td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Total</b> {{ cart.total }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% else %}
+<p class='lead'>Cart is empty</p>
+{% endif %}
+
+
 {% endblock %}
