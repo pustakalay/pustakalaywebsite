@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^contact/$', contact_page, name='contact'),
     url('books/', include('booksapp.urls', namespace='books')),
     url('search/', include('search.urls', namespace='search')),
+    url('cart/', include('carts.urls', namespace='carts')),
 ]
 
 if settings.DEBUG:

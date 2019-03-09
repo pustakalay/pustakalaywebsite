@@ -5,6 +5,7 @@
 {% url 'login_page' as login_url %}
 {% url 'register_page' as register_url %}
 {% url 'logout' as logout_url %}
+{% url 'carts:cart' as cart_url %}
 
 	<!--  Header -->
 	<header class="header_area mb-3" >
@@ -86,7 +87,7 @@
 				</div>
 				<!-- Cart -->
 				<div class="cart-area">
-					<a href="#"><img src='{% static "img/core-img/bag.svg" %}'
+					<a href="{{cart_url}}"><img src='{% static "img/core-img/bag.svg" %}'
 						alt=""> <span></span></a>
 				</div>
 			</div>
