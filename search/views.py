@@ -10,5 +10,5 @@ class SearchBookListView(ListView):
     def get_queryset(self, *args, **kwargs):
         request = self.request
         if request.GET.get('q') is not None:
-            return Book.objects.filter(title__icontains=request.GET.get('q')).order_by('-rank') 
+            return Book.objects.search(request.GET.get('q')).order_by('-rank') 
         return None

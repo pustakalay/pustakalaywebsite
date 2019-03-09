@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book
+from .models import Book, Tag
 
 # Not working
 class BookAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class BookAdmin(admin.ModelAdmin):
         model = Book
 
 admin.site.register(Book)
+admin.site.register(Tag)
