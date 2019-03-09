@@ -40,7 +40,8 @@ class BookQuerySet(models.query.QuerySet):
                   Q(author__icontains=query) |
                   Q(isbn10__iexact=query) | 
                   Q(isbn13__iexact=query) |
-                  Q(publisher__icontains=query))
+                  Q(publisher__icontains=query) | 
+                  Q(tag__title__icontains=query))
         return self.filter(lookups).distinct()
     
 class BookManager(models.Manager):
