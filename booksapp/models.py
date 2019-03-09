@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import random
 import os
-from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator  
 from django.urls import reverse  
@@ -21,6 +21,32 @@ def upload_image_path(instance, filename):
     return "books/{final_filename}".format(
             final_filename=final_filename
             )
+
+class BookQuerySet(models.query.QuerySet):
+    def active(self):
+        return self.filter(active=True)
+
+    def search(self, query):
+        lookups = (Q(title__icontains=query) | 
+                  Q(description__icontains=query)
+                  )
+        return self.filter(lookups).distinct()
+    
+class BookManager(models.Manager):
+    def get_queryset(self):
+        return BookQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset().active()
+
+    def get_by_id(self, id):
+        qs = self.get_queryset().filter(id=id) # Product.objects == self.get_queryset()
+        if qs.count() == 1:
+            return qs.first()
+        return None
+
+    def search(self, query):
+        return self.get_queryset().active().search(query)
 
 
 class Book(models.Model):
@@ -62,7 +88,7 @@ class Book(models.Model):
     pustakalayRating = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
     avgcustomerRating = models.BigIntegerField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])
     newArrival = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(1)])  # #auto decrement
-    context = models.CharField(max_length=200, blank=True)
+    active = models.BooleanField(default=True)
     rank = models.FloatField(default=0)
     translatedBy = models.CharField(max_length=200, blank=True)
     sku = models.CharField(default='pu', max_length=200, unique=True, blank=True)
@@ -77,7 +103,8 @@ class Book(models.Model):
     image_front = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     image_back = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
 
-
+    objects = BookManager()
+    
 def book_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
