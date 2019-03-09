@@ -19,6 +19,7 @@
 
 	<div class='container'>
 		<div class='row'>
+		{% if object_list %}
 			{% for obj in object_list %}
 			<div class='col'>{% include 'booksapp/snippets/card.html' with instance=obj %} 
 			{% if forloop.counter|divisibleby:2 %}</div>
@@ -30,6 +31,9 @@
 			{% else %}
 		</div>
 		{% endif %} {% endfor %}
+		{% else %}
+    		<p>No books are available.</p>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

@@ -26,11 +26,21 @@ class BookQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)
 
-    def search(self, query):
-        lookups = (Q(title__icontains=query) | 
-                  Q(description__icontains=query) |
-                  Q(tag__title__icontains=query)
-                  )
+    def search(self, query, searchFilter):
+        if searchFilter == 'Title':
+            lookups = Q(title__icontains=query)
+        elif searchFilter == 'Author':
+            lookups = Q(author__icontains=query)
+        elif searchFilter == 'Isbn10/13':
+            lookups = Q(isbn10__iexact=query) | Q(isbn13__iexact=query)
+        elif searchFilter == 'Publisher':
+            lookups = Q(publisher__icontains=query)
+        elif searchFilter == 'None':
+            lookups = (Q(title__icontains=query) | 
+                  Q(author__icontains=query) |
+                  Q(isbn10__iexact=query) | 
+                  Q(isbn13__iexact=query) |
+                  Q(publisher__icontains=query))
         return self.filter(lookups).distinct()
     
 class BookManager(models.Manager):
@@ -46,8 +56,8 @@ class BookManager(models.Manager):
             return qs.first()
         return None
 
-    def search(self, query):
-        return self.get_queryset().active().search(query)
+    def search(self, query, searchFilter):
+        return self.get_queryset().active().search(query, searchFilter)
 
 
 class Book(models.Model):

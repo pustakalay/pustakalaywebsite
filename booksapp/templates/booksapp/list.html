@@ -3,7 +3,7 @@
 {% block content %}
     <div class='container'>
         <div class='row'>
-
+{% if object_list %}
     {% for obj in object_list %}
     <div class='col'>
         {% include 'booksapp/snippets/card.html' with instance=obj %}     
@@ -13,6 +13,9 @@
          </div>  
         {% endif %}  
     {% endfor %}
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
 </div>
 </div>
 {% endblock %}
