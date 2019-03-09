@@ -1,5 +1,18 @@
-{% for obj in object_list %}
+{% extends "base.html" %}
 
-<a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a><br/>
+{% block content %}
+    <div class='container'>
+        <div class='row'>
 
-{% endfor %}
+    {% for obj in object_list %}
+    <div class='col'>
+        {% include 'booksapp/snippets/card.html' with instance=obj %}     
+	  {% if forloop.counter|divisibleby:2 %}
+	   </div> </div><div class='row'><div class='col-12'><hr/></div> 
+      {% else %}
+         </div>  
+        {% endif %}  
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

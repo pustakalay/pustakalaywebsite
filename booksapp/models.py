@@ -4,7 +4,8 @@ import random
 import os
 from django.db import models
 from django.db.models.signals import pre_save, post_save
-from .utils import unique_slug_generator    
+from .utils import unique_slug_generator  
+from django.urls import reverse  
 
 
 def get_filename_ext(filepath):
@@ -28,7 +29,8 @@ class Book(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return "/books/{slug}/".format(slug=self.slug)
+#         return "/books/{slug}/".format(slug=self.slug)
+          return reverse("books:booksdetail", kwargs={"slug": self.slug})
 
     LANGUAGE_CHOICES = (
         ('HINDI', 'Hindi'),

@@ -1,8 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block content %}
 <h1>{{ object.title }}</h1>
 <ul>
     <li>author : {{ object.author }}</li>
     <li>translatedBy : {{ object.translatedBy }}</li>
-    <li>description : {{ object.description }}</li>
+    <li>description : {{ object.description | linebreaks }}</li>
     <li>publisher : {{ object.publisher }}</li>
     <li>dimension : {{ object.dimension }}</li>
     <li>numberOfPages : {{ object.numberOfPages }}</li>
@@ -17,3 +21,5 @@
 {% if object.image_back %}
     <img src='{{ object.image_back.url }}' class ='img-fluid'/>
 {% endif %}
+
+{% endblock %}

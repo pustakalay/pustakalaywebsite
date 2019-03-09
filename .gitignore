@@ -6,3 +6,5 @@ db.sqlite3
 pustakalaywebsite/settings/__init__.py
 pustakalaywebsite/settings/secrets*.py
 media/*
+.settings/*
+static/*

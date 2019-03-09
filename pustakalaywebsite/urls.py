@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^login/$', login_page, name='login_page'),
     url(r'^register/$', register_page, name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
-    url('books/', include('booksapp.urls')),
+    url('books/', include('booksapp.urls', namespace='books')),
+    url('search/', include('search.urls', namespace='search')),
 ]
 
 if settings.DEBUG:
