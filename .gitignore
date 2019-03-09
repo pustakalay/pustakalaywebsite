@@ -8,3 +8,4 @@ pustakalaywebsite/settings/secrets*.py
 media/*
 .settings/*
 static/*
+!static/.gitkeep 
