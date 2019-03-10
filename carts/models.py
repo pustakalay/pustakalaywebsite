@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from booksapp.models import Book
 from django.db.models.signals import pre_save, post_save, m2m_changed
+from decimal import Decimal
 
 User = settings.AUTH_USER_MODEL
 
@@ -59,6 +60,8 @@ m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.books.through)
 
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
-    instance.total = instance.subtotal  + 10 #* 1.08
-
+    if instance.subtotal > 0:
+        instance.total = Decimal(instance.subtotal) * Decimal(1.10) # 10% tax
+    else:
+        instance.total = 0.00
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
