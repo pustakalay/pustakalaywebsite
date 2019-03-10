@@ -1,8 +1,5 @@
-from django.shortcuts import render, redirect
-from .forms import ContactForm, LoginForm, RegisterForm   
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import get_user_model
-
+from django.shortcuts import render
+from .forms import ContactForm
 
 def home_page(request):
     context = {
@@ -22,34 +19,4 @@ def contact_page(request):
     if contact_form.is_valid():
         print(contact_form.cleaned_data)
     return render(request, "contact/view.html", context)
-
-
-def login_page(request):
-    login_form = LoginForm(request.POST or None)
-    context = {'form' : login_form}
-    if login_form.is_valid():
-        username = login_form.cleaned_data.get('username')
-        password = login_form.cleaned_data.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            context['error'] = "Incorrect Password"
-    return render(request, 'auth/login.html', context)
-
-
-User = get_user_model()
-
-
-def register_page(request):
-    register_form = RegisterForm(request.POST or None)
-    context = {'form' : register_form}
-    if register_form.is_valid():
-        username = register_form.cleaned_data.get('username')
-        email = register_form.cleaned_data.get('email')
-        password = register_form.cleaned_data.get('password')
-        user = User.objects.create_user(username, email, password)
-        return redirect('home')
-    return render(request, 'auth/register.html', context)
 

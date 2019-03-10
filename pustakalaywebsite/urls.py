@@ -17,7 +17,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-from .views import home_page, contact_page, login_page, register_page
+from .views import home_page, contact_page
+from accounts.views import login_page, register_page, guest_register_view
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     url(r'^$', home_page, name='home'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', login_page, name='login_page'),
+    url(r'^register/guest/$', guest_register_view, name='guest_register'),
     url(r'^register/$', register_page, name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
     url('books/', include('booksapp.urls', namespace='books')),
