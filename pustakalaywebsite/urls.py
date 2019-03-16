@@ -20,12 +20,15 @@ from django.contrib import admin
 from .views import home_page, contact_page
 from accounts.views import login_page, register_page, guest_register_view
 from django.contrib.auth import views as auth_views
+from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', login_page, name='login_page'),
+    url(r'^checkout/address/create/$', checkout_address_create_view, name='checkout_address_create'),
+    url(r'^checkout/address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
     url(r'^register/guest/$', guest_register_view, name='guest_register'),
     url(r'^register/$', register_page, name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
