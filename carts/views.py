@@ -60,7 +60,7 @@ def checkout_home(request):
         is_done = order_obj.check_done()
         if is_done:
             order_obj.mark_paid()
-            request.session['cart_items'] = 0
+            del request.session['cart_item_count']
             del request.session['cart_id']
             return redirect("carts:success")
     

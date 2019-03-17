@@ -1,7 +1,6 @@
+from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm, GuestForm   
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import get_user_model
 from django.utils.http import is_safe_url
 from .models import GuestEmail
 

@@ -66,6 +66,10 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
+    @property
+    def name(self):
+        return self.title
+    
     def get_absolute_url(self):
 #         return "/books/{slug}/".format(slug=self.slug)
           return reverse("books:booksdetail", kwargs={"slug": self.slug})

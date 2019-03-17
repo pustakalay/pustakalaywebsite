@@ -17,7 +17,7 @@
     {% for book in cart.books.all %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
-      <td><a href='{{ book.get_absolute_url }}'>{{ book.title }}
+      <td><a href='{{ book.get_absolute_url }}'>{{ book.title }}</a>
       {% include 'booksapp/snippets/update-cart.html' with product=product cart=cart in_cart=True %}
       <td>{{ book.price }}</td>
     </tr>
