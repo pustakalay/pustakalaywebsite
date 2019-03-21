@@ -23,7 +23,7 @@
 <body>
 	{% include 'header.html' %} 
 	{% block content %} {% endblock %} 
-	{% include 'footer.html' %}
+	
 	<script src='{% static "js/jquery/jquery-2.2.4.min.js" %}'></script>
 	<!-- Popper js -->
 	<script src='{% static "js/popper.min.js" %}'></script>
@@ -35,5 +35,5 @@
 	<script src='{% static "js/active.js" %}'></script>
 
 </body>
-
+{% include 'footer.html' %}
 </html>

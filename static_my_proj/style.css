@@ -5,15 +5,17 @@
 @import url(css/font-awesome.min.css);
 
 * {
-    margin: 0;
+    margin:0;
     padding: 0;
 }
-
 body {
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     background-color: #ffffff;
     margin-top: 85px;
+    height: auto;
+    position: relative;
+    min-height: 100%;
 }
 
 @media only screen and (max-width: 767px) {
@@ -162,7 +164,7 @@ p {
 
 @media only screen and (max-width: 767px) {
     .header_area .search-area form input {
-        width: 170px;
+        width: 150px;
         height: 40px;
         padding: 0 10px 0 30px;
     }
@@ -170,61 +172,28 @@ p {
 
 .header_area .search-area form input:focus {
     outline: none !important;
-    width: 350px;
 }
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .header_area .search-area form input:focus {
-        width: 300px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .header_area .search-area form input:focus {
-        width: 170px;
-    }
-}
-
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-    .header_area .search-area form input:focus {
-        width: 270px;
-    }
-}
-
-@media only screen and (min-width: 576px) and (max-width: 767px) {
-    .header_area .search-area form input:focus {
-        width: 300px;
-    }
-}
-
 .header_area .search-area form button {
-    position: absolute;
+    position: relative;
     z-index: 10;
-    top: 50%;
+    bottom: 50%;
+    padding: 2%;
+    float: right;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
-    left: 30px;
     background-color: transparent;
     border: none;
     color: #787878;
     font-size: 14px;
 }
 
-@media only screen and (max-width: 767px) {
-    .header_area .search-area form button {
-        left: 10px;
-        height: 40px;
-    }
-}
-
-.header_area .user-login-info a,
 .header_area .cart-area a {
     position: relative;
     z-index: 1;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 90px;
     flex: 0 0 90px;
-    width: 90px;
+    width: 150px;
     display: block;
     text-align: center;
     border-left: 1px solid #ebebeb;
@@ -232,16 +201,56 @@ p {
     line-height: 80px;
 }
 
+.header_area .user-login-info .log_in {
+    position: relative;
+    z-index: 1;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 90px;
+    flex: 0 0 90px;
+    width: 100px;
+    display: block;
+    text-align: center;
+    border-left: 1px solid #ebebeb;
+    height: 100%;
+    padding: 30%;
+}
+.header_area .user-login-info .logged_in {
+    position: relative;
+    z-index: 1;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 90px;
+    flex: 0 0 90px;
+    width: 150px;
+    display: block;
+    text-align: center;
+    border-left: 1px solid #ebebeb;
+    height: 100%;
+    padding:5%;
+}
+
 @media only screen and (max-width: 767px) {
 
     .header_area .favourite-area a,
-    .header_area .user-login-info a,
     .header_area .cart-area a {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 50px;
         flex: 0 0 50px;
         width: 50px;
         line-height: 40px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .header_area .user-login-info .logged_in {
+        display: none;
+    }
+    .header_area .user-login-info .log_in {
+        position: relative;
+        z-index: 1;
+        width: 60px;
+        display: block;
+        text-align: center;
+        padding:9px;
     }
 }
 
@@ -281,64 +290,79 @@ p {
 }
 
 /* main content */
-.home_slider{
-    margin-top:2%;
+.home_slider {
+    margin-top: 2%;
 }
-.slides{
-   height:400px;
-}
-#stock_container{
 
-margin-top: 2%;
+.slides {
+    height: 400px;
 }
+
+#stock_container {
+
+    margin-top: 2%;
+}
+
 .global_header {
     color: #777;
-    font-size:30px;
+    font-size: 30px;
     text-transform: uppercase;
-    font-weight:bold;
-  }
-  .global_header::before,
-  .global_header::after{
+    font-weight: bold;
+}
+
+.global_header::before,
+.global_header::after {
     display: inline-block;
     content: "";
     border-top: .1rem solid #777;
     width: 10rem;
     margin: 0 2rem;
     transform: translateY(-0.5rem);
-  }
-  @media only screen and (max-width: 768px) {
-    .global_header {
-        font-size:17px;
-      }
-      .global_header::before,
-      .global_header::after{
-        width: 5rem;
-      }
-    }
-.book_container{
-   border: 1px solid gainsboro;
-    min-height:300px;
-    padding: 5px;
-    
-}
-.author_container{
-    border: 1px solid gainsboro;
-    min-height:200px;
-    padding: 5px;
 }
 
-/* FOOTER */
-footer{
-    margin-top: 2%;
-    padding-top: 2%;
+@media only screen and (max-width: 768px) {
+    .global_header {
+        font-size: 17px;
+    }
+
+    .global_header::before,
+    .global_header::after {
+        width: 5rem;
+    }
 }
-.context-dark, .bg-gray-dark, .bg-primary {
+
+.book_container {
+    border: 1px solid gainsboro;
+    min-height: 300px;
+    padding: 5px;
+
+}
+
+.author_container {
+    border: 1px solid gainsboro;
+    min-height: 200px;
+    padding: 5px;
+}
+.login_container{
+    margin: 0 auto;
+    
+}
+/* FOOTER */
+.footer-classic {
+  display: none;
+}
+.context-dark,
+.bg-gray-dark,
+.bg-primary {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.footer-classic a, .footer-classic a:focus, .footer-classic a:active {
+.footer-classic a,
+.footer-classic a:focus,
+.footer-classic a:active {
     color: #ffffff;
 }
+
 .nav-list li {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -350,7 +374,8 @@ footer{
     visibility: visible;
 }
 
-ul, ol {
+ul,
+ol {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -366,9 +391,11 @@ ul, ol {
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.5);
 }
+
 .social-container .col {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .nav-list li a:before {
     content: "\f14f";
     font: 400 21px/1 "Material Design Icons";
@@ -381,3 +408,23 @@ ul, ol {
     visibility: hidden;
     transition: .22s ease;
 }
+
+.book_select {
+    margin: 1%;
+    border: none;
+    outline: none;
+}
+@media only screen and (max-width: 768px) {
+    .card{
+            padding:5px;
+            margin: 0 auto;
+        }
+}
+.col-md-3{
+    width: 50%!important;
+}
+.card-img-top{
+      max-height: 200px;
+      max-width: 150px;
+      margin: 0 auto;
+    }
