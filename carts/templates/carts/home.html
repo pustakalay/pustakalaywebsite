@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-
-
 {% block content %}
-<h1>Cart</h1>
+<div class="container">
+  
+<h1>Your Cart</h1>
 
 {% if cart.books.exists %}
 <table class="table">
@@ -41,5 +41,5 @@
 <p class='lead'>Cart is empty</p>
 {% endif %}
 
-
+</div>
 {% endblock %}

@@ -1,39 +1,36 @@
 {% extends "base.html" %} {% block content %}
-<div class='row  mb-3'>
-	<div class='col-12 col-md-6 mx-auto py-5'>
+<div class='container-fluid'>
+	<div>
 		{% include 'search/snippets/search_form.html' %}
 	</div>
 	{% if request.GET.q %}
-	<div class='col-12'>
-		Results for <b>{{ request.GET.q }}</b>
-		<hr />
-	</div>
+	<p>You Searched <b>{{ request.GET.q }}</b></p>
 	{% endif %}
-	<div class='col-12'>
-		<hr>
-	</div>
+
+	<hr>
+
 </div>
 
-
-<div class='row'>
-
-	<div class='container'>
-		<div class='row'>
+<div class='container-fluid'>
+	<div class='row'>
 		{% if object_list %}
-			{% for obj in object_list %}
-			<div class='col'>{% include 'booksapp/snippets/card.html' with instance=obj %} 
-			{% if forloop.counter|divisibleby:2 %}</div>
+		{% for obj in object_list %}
+		<div class='col-xs-6 col-md-3'>
+			{% include 'booksapp/snippets/card.html' with instance=obj %}
+			{% if forloop.counter|divisibleby:4 %}
 		</div>
-		<div class='row'>
-			<div class='col-12'>
-				<hr />
-			</div>
-			{% else %}
-		</div>
-		{% endif %} {% endfor %}
-		{% else %}
-    		<p>No books are available.</p>
-		{% endif %}
 	</div>
+	<div class='row'>
+		<div class='col-12'>
+			<hr />
+		</div>
+		{% else %}
+	</div>
+	{% endif %}
+	{% endfor %}
+	{% else %}
+	<p>No books are available.</p>
+	{% endif %}
+</div>
 </div>
 {% endblock %}

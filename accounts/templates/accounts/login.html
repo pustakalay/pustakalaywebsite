@@ -1,13 +1,16 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
 {% if not request.user.is_authenticated%}
-<p>User is not logged in.</p>
 {% endif%}
+<br>
+<div class="container login_container">
+	
 <form method="POST">
-	{% csrf_token %} {{ form }} <input type="submit" value="Login">
+	{% csrf_token %} {{ form }} 
+	<input type="submit" value="Login">
 </form>
 <br>
 <p>Not existing user?</p> 
-<a href="{% url 'register_page' %}">register</a>
-
+<a href="{% url 'register_page' %}">Register</a>
+</div>
 {% endblock %}

@@ -1,8 +1,8 @@
 <!-- Search Area -->
 <div class="search-area">
 	<form method='GET' action='{% url "search:search" %}'>
-		<select name="f">
-			<option value="None">None</option>
+		<select class="book_select" name="f" placeholder="Type for books">
+			<option value="None">Filter By</option>
 			<option value="Title">Title</option>
 			<option value="Author">Author</option>
 			<option value="Isbn10/13">Isbn10/13</option>
@@ -10,8 +10,8 @@
 		</select>
 		 <input type="search" name="q" id="headerSearch"
 			placeholder="Type for books">
-		<button type="submit">
-			<i class="fa fa-search" aria-hidden="true"></i>
-		</button>
+			<button type="submit">
+					<i class="fa fa-search search_button" aria-hidden="true"></i>
+				</button>
 	</form>
 </div>
