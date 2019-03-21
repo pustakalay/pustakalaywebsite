@@ -35,6 +35,36 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
           $(document).ready(function(){
+              // Auto Search
+              var searchForm = $(".search-form")
+              var searchInput = searchForm.find("[name='q']") // input name='q'
+              var searchFilter = searchForm.find("[name='f']")
+              var typingTimer;
+              var typingInterval = 500 // .5 seconds
+              var searchBtn = searchForm.find("[type='submit']")
+              searchInput.keyup(function(event){
+                // key released
+                clearTimeout(typingTimer)
+                typingTimer = setTimeout(perfomSearch, typingInterval)
+              })
+              searchInput.keydown(function(event){
+                // key pressed
+                clearTimeout(typingTimer)
+              })
+              function displaySearching(){
+                searchBtn.addClass("disabled")
+                searchBtn.html("<i class='fa fa-spin fa-spinner'></i> ")
+              }
+              function perfomSearch(){
+                displaySearching()
+                var query = searchInput.val()
+                setTimeout(function(){
+                  window.location.href='/search/?q=' + query+'&f='+searchFilter.val()
+                }, 1000)
+                
+              }
+              
+            // Cart + Add Products   
             var productForm = $(".form-product-ajax") // #form-product-ajax
             productForm.submit(function(event){
                 event.preventDefault();
