@@ -5,7 +5,7 @@
 <h1>Your Cart</h1>
 
 {% if cart.books.exists %}
-<table class="table">
+<table class="table cart-table">
   <thead>
     <tr>
       <th>#</th>
@@ -13,22 +13,23 @@
       <th>Book Price</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class='cart-body'>
     {% for book in cart.books.all %}
-    <tr>
+    <tr class='cart-product'>
       <th scope="row">{{ forloop.counter }}</th>
       <td><a href='{{ book.get_absolute_url }}'>{{ book.title }}</a>
-      {% include 'booksapp/snippets/update-cart.html' with product=product cart=cart in_cart=True %}
+        {% include 'carts/snippets/remove-product.html' with product_id=book.id %}
+      </td>
       <td>{{ book.price }}</td>
     </tr>
     {% endfor %}
     <tr>
       <td colspan="2"></td>
-      <td><b>Subtotal</b> {{ cart.subtotal }}</td>
+      <td><b>Subtotal</b>  <span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td><b>Total</b> {{ cart.total }}</td>
+      <td><b>Total</b>  <span class='cart-total'>{{ cart.total }}</span></td>
     </tr>
     <tr>
       <td colspan="2"></td>
@@ -36,6 +37,11 @@
     </tr>
   </tbody>
 </table>
+
+<div class='cart-item-remove-form' style='display:none'>
+
+    {% include 'carts/snippets/remove-product.html' %}
+  </div>
 
 {% else %}
 <p class='lead'>Cart is empty</p>

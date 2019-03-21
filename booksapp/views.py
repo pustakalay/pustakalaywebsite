@@ -10,6 +10,12 @@ class BookListView(ListView):
     queryset = Book.objects.all().order_by('-rank')
     template_name = "booksapp/list.html"
     
+    def get_context_data(self, *args, **kwargs):
+        context = super(BookListView, self).get_context_data(*args, **kwargs)
+        cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+        context['cart'] = cart_obj
+        return context
+    
 class BookDetailView(DetailView):
     queryset = Book.objects.all()
     def get_context_data(self, *args, **kwargs):

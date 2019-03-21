@@ -4,8 +4,7 @@
     {% endif %}
   <div class="card-body">
     <h4 class="card-title">{{ instance.title }}</h4>
-    <!--<a href="{{ instance.get_absolute_url }}" class="btn btn-primary">View</a>-->
-    <a href="{% url 'books:booksdetail' slug=instance.slug %}" class="btn btn-warning">View</a>
-    <span><a href="{% url 'books:booksdetail' slug=instance.slug %}" class="btn btn-warning">Add To Cart</a></span>
+    <a href="{{ instance.get_absolute_url }}" class="btn btn-primary">View</a>
+        {% include 'booksapp/snippets/update-cart.html' with  product=instance cart=cart %}
   </div>
 </div>
