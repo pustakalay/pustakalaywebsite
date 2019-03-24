@@ -5,6 +5,7 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from carts.models import Cart
+from analytics.mixins import ObjectViewedMixin
 
 class BookListView(ListView):
     queryset = Book.objects.all().order_by('-rank')
@@ -16,7 +17,7 @@ class BookListView(ListView):
         context['cart'] = cart_obj
         return context
     
-class BookDetailView(DetailView):
+class BookDetailView(ObjectViewedMixin, DetailView):
     queryset = Book.objects.all()
     def get_context_data(self, *args, **kwargs):
         context = super(BookDetailView, self).get_context_data(*args, **kwargs)

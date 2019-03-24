@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'booksapp',
     'addresses',
+    'analytics',
     'search',
     'carts',
     'orders',
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+FORCE_SESSION_TO_ONE = False
+FORCE_INACTIVE_USER_ENDSESSION= False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
