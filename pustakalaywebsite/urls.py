@@ -22,12 +22,16 @@ from accounts.views import LoginView, RegisterView, guest_register_view
 from django.contrib.auth import views as auth_views
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_detail_api_view
+from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
+    url(r'^accounts/$', RedirectView.as_view(url='/account')),
+    url(r'^settings/$', RedirectView.as_view(url='/account')),
+    url(r'^account/', include("accounts.urls", namespace='account')),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
-    url(r'^login/$', LoginView.as_view(), name='login_page'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^checkout/address/create/$', checkout_address_create_view, name='checkout_address_create'),
     url(r'^checkout/address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
     url(r'^api/cart/$', cart_detail_api_view, name='api-cart'),

@@ -3,8 +3,14 @@ from django.shortcuts import redirect
 from .forms import LoginForm, RegisterForm, GuestForm   
 from django.utils.http import is_safe_url
 from .models import GuestEmail
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView
 from .signals import user_logged_in
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class AccountHomeView(LoginRequiredMixin, DetailView):
+    template_name = 'accounts/home.html'
+    def get_object(self):
+        return self.request.user
 
 class LoginView(FormView):
     form_class = LoginForm
