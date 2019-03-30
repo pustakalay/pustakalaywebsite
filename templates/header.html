@@ -6,6 +6,7 @@
 {% url 'register_page' as register_url %}
 {% url 'logout' as logout_url %}
 {% url 'carts:home' as cart_url %}
+{% url 'account:home' as account_url %}
 
 	<!--  Header -->
 	<header class="header_area mb-3" >
@@ -77,11 +78,23 @@
 				<!-- User-->
 				<div class="user-login-info {% if request.path == login_url %}active{% endif %}">
 					{% if user.is_authenticated %}
-					<p>
+					<!-- <p>
 						<a class="logged_in" >Hi {{ user.username }}</a>
 						<span><a class="logged_in" href="{{logout_url}}">Logout <i class="fa fa-power-off" aria-hidden="true"></i></a></span>
 						
-					</p>
+					</p> -->
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+						href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> Account </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a
+								class="dropdown-item {% if request.path == account_url %}active{% endif %}"
+								href="{{ account_url }}">Home</a> <a class="dropdown-item" href="#">Another
+								action</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{ logout_url }}">Logout</a>
+						</div>
+					</li>
 					{% else %} <a class="log_in" href="{{login_url}}"><img
 						src='{% static "img/core-img/user.svg" %}' alt="Login"></a> 
 						{% endif %}
