@@ -6,6 +6,7 @@ from .models import GuestEmail
 from django.views.generic import CreateView, FormView, DetailView
 from .signals import user_logged_in
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 class AccountHomeView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/home.html'
@@ -26,6 +27,9 @@ class LoginView(FormView):
         password  = form.cleaned_data.get("password")
         user = authenticate(request, username=email, password=password)
         if user is not None:
+            if not user.is_active:
+                messages.error(request, "This user is inactive")
+                return super(LoginView, self).form_invalid(form)
             login(request, user)
             user_logged_in.send(user.__class__, instance=user, request=request)
             try:
