@@ -44,6 +44,20 @@ AUTH_USER_MODEL = 'accounts.User'
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION= False
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dev.pustakalay@gmail.com' 
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Pustakalay Developer <dev.pustakalay@gmail.com>'
+
+
+
+MANAGERS = (
+    ('Pustakalay Developer', "dev.pustakalay@gmail.com"),
+)
+
+ADMINS = MANAGERS
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
