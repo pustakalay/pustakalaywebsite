@@ -3,7 +3,7 @@ from .secrets_dev import *
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','192.168.1.63']
-
+BASE_URL = '127.0.0.1:8000'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
