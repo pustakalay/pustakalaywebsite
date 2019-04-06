@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 from .views import home_page, contact_page
-from accounts.views import LoginView, RegisterView, guest_register_view
+from accounts.views import LoginView, RegisterView, GuestRegisterView
 from django.contrib.auth import views as auth_views
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_detail_api_view
@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^checkout/address/create/$', checkout_address_create_view, name='checkout_address_create'),
     url(r'^checkout/address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
     url(r'^api/cart/$', cart_detail_api_view, name='api-cart'),
-    url(r'^register/guest/$', guest_register_view, name='guest_register'),
+    url(r'^register/guest/$', GuestRegisterView.as_view(), name='guest_register'),
     url(r'^register/$', RegisterView.as_view(), name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
     url('books/', include('booksapp.urls', namespace='books')),
