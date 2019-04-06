@@ -6,19 +6,6 @@
 <h1>Account</h1>
 <hr/>
 </div>
-<div class='col-12 col-md-3 my-3'>
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Support</h4>
-            <div class='list-group'>
-                <a class='list-group-item' href='#'>About</a>
-                <a class='list-group-item' href='{% url "contact" %}'>Contact</a>
-            </div>
-      </div>
-    </div>
-</div>
-
-
 
 <div class='col-12 col-md-3 my-3'>
     <div class="card">
@@ -35,21 +22,19 @@
     </div>
 </div>
 
-
 <div class='col-12 col-md-3 my-3'>
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Account Details</h4> 
             <div class='list-group'>
-                <a class='list-group-item' href='#'>Name</a>
-                <a class='list-group-item' href='#'>Reset Password</a>
+                <a class='list-group-item' href='{% url "account:user-update" %}'>Update Details</a>
+                <a class='list-group-item' href='{% url "password_change" %}'>Change Password</a>
                 
             </div>
 
       </div>
     </div>
 </div>
-
 
 <div class='col-12 col-md-3 my-3'>
     <div class="card">
@@ -64,13 +49,24 @@
     </div>
 </div>
 
-
 <div class='col-12 col-md-3 my-3'>
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">History</h4> 
               <div class='list-group'>
                 <a class='list-group-item' href='#'>Products</a>
+            </div>
+      </div>
+    </div>
+</div>
+
+<div class='col-12 col-md-3 my-3'>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Support</h4>
+            <div class='list-group'>
+                <!-- <a class='list-group-item' href='#'>About</a> -->
+                <a class='list-group-item' href='{% url "contact" %}'>Contact</a>
             </div>
       </div>
     </div>
