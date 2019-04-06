@@ -87,12 +87,12 @@
 						href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"> Account </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a
-								class="dropdown-item {% if request.path == account_url %}active{% endif %}"
+							<a class="dropdown-item {% if request.path == account_url %}active{% endif %}"								
 								href="{{ account_url }}">Home</a> 
-					          <a class="dropdown-item" href="#">Billing</a>
-					          <a class="dropdown-item" href="#">Preferences</a>
-					          <a class="dropdown-item" href="#">History</a>
+					          <a class="dropdown-item" href='{% url "orders:list" %}'>Orders</a>
+					          <a class="dropdown-item" href='{% url "addresses:home" %}'>Addresses</a>
+					          <a class="dropdown-item" href='{% url "account:user-book-history" %}'>Products Viewed</a>
+					          <a class="dropdown-item" href='{% url "password_change" %}'>Change Password</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{ logout_url }}">Logout</a>
 						</div>
