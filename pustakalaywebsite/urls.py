@@ -20,7 +20,6 @@ from django.contrib import admin
 from .views import home_page, contact_page
 from accounts.views import LoginView, RegisterView, GuestRegisterView
 from django.contrib.auth import views as auth_views
-from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 from carts.views import cart_detail_api_view
 from django.views.generic import RedirectView
 
@@ -28,14 +27,14 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
     url(r'^orders/', include("orders.urls", namespace='orders')),
-    url(r'^accounts/$', RedirectView.as_view(url='/account')),
+    url(r'^address/$', RedirectView.as_view(url='/addresses')),
+    url(r'^addresses/', include("addresses.urls", namespace='addresses')),
     url(r'^settings/$', RedirectView.as_view(url='/account')),
+    url(r'^accounts/$', RedirectView.as_view(url='/account')),
     url(r'^account/', include("accounts.urls", namespace='account')),
     url(r'^accounts/', include("accounts.passwords.urls")),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^checkout/address/create/$', checkout_address_create_view, name='checkout_address_create'),
-    url(r'^checkout/address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
     url(r'^api/cart/$', cart_detail_api_view, name='api-cart'),
     url(r'^register/guest/$', GuestRegisterView.as_view(), name='guest_register'),
     url(r'^register/$', RegisterView.as_view(), name='register_page'),
