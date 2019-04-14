@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'orders',
     'accounts',
     'billing',
+    'sms',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
