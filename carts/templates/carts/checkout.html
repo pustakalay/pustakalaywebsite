@@ -7,14 +7,13 @@
         <div class='col-12 col-md-6'>
             <p class='lead'>Login</p>
             {% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+       		<p>Not existing user?</p> 
+			<a href="{% url 'register_page' %}">Register</a>
+			<br>
+			<p>Forgot Password?</p> 
+			<a href="{% url 'password_reset' %}">Reset Password</a> 
         </div>
-        <div class='col-12 col-md-6'>
-            Continue as Guest
-
-            {% url "guest_register" as guest_register_url %}
-            {% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
-        </div>
-
+        <br>
     </div>
 
     {% else %}

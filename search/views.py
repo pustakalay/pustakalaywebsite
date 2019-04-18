@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import ListView
 from booksapp.models import Book
 from carts.models import Cart

@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.db import models
 from booksapp.models import Book
-from django.db.models.signals import pre_save, post_save, m2m_changed
-from decimal import Decimal
+from django.db.models.signals import pre_save, m2m_changed
 
 User = settings.AUTH_USER_MODEL
 
@@ -42,8 +41,7 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
-    
-    
+        
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
         books = instance.books.all()
@@ -55,9 +53,6 @@ def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
             instance.save()
 
 m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.books.through)
-
-
-
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:

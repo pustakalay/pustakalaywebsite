@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 from .views import home_page, contact_page
-from accounts.views import LoginView, RegisterView, GuestRegisterView
+from accounts.views import LoginView, RegisterView
 from django.contrib.auth import views as auth_views
 from carts.views import cart_detail_api_view
 from django.views.generic import RedirectView
@@ -37,7 +37,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^api/cart/$', cart_detail_api_view, name='api-cart'),
-    url(r'^register/guest/$', GuestRegisterView.as_view(), name='guest_register'),
     url(r'^register/$', RegisterView.as_view(), name='register_page'),
     url(r'^contact/$', contact_page, name='contact'),
     url('books/', include('booksapp.urls', namespace='books')),

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Cart
 from booksapp.models import Book
 from orders.models import Order
-from accounts.forms import LoginForm, GuestForm
+from accounts.forms import LoginForm
 from addresses.forms import AddressCheckoutForm
 from billing.models import BillingProfile
 from addresses.models import Address
@@ -57,7 +57,6 @@ def checkout_home(request):
         return redirect("cart:home")
     
     login_form = LoginForm(request=request)
-    guest_form = GuestForm(request=request)
     address_form = AddressCheckoutForm()
     billing_address_id = request.session.get("billing_address_id", None)
     shipping_address_id = request.session.get("shipping_address_id", None)
@@ -90,12 +89,10 @@ def checkout_home(request):
         "object": order_obj,
         "billing_profile": billing_profile,
         "login_form": login_form, 
-        "guest_form": guest_form,
         "address_form": address_form,
         "address_qs": address_qs,
     }
     return render(request, "carts/checkout.html", context)
-
 
 def checkout_done_view(request):
     return render(request, "carts/checkout-done.html", {})

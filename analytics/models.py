@@ -7,7 +7,6 @@ from django.db.models.signals import post_save
 from accounts.signals import user_logged_in
 from .signals import object_viewed_signal
 from pustakalaywebsite.utils import get_client_ip
-from django.contrib.auth.models import AnonymousUser
 
 User = settings.AUTH_USER_MODEL
 
@@ -54,7 +53,7 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
     user = None
     if request.user.is_authenticated():
         user = request.user    
-    new_view_obj = ObjectViewed.objects.create(
+    ObjectViewed.objects.create(
                 user = user,
                 content_type=c_type,
                 object_id=instance.id,
@@ -77,8 +76,7 @@ class UserSession(models.Model):
     ended               = models.BooleanField(default=False)
 
     def end_session(self):
-        session_key = self.session_key
-        ended = self.ended
+        session_key = self.session_key        
         try:
             Session.objects.get(pk=session_key).delete()
             self.active = False
