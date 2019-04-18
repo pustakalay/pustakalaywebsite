@@ -17,7 +17,7 @@ class BillingProfileManager(models.Manager):
         if user.is_authenticated():
             'logged in user checkout; remember payment stuff'
             obj, created = self.model.objects.get_or_create(
-                            user=user, email=user.email)
+                            user=user, phone=user.phone)
         elif guest_email_id is not None:
             'guest user checkout; auto reloads payment stuff'
             guest_email_obj = GuestEmail.objects.get(id=guest_email_id)
@@ -29,14 +29,14 @@ class BillingProfileManager(models.Manager):
 
 class BillingProfile(models.Model):
     user        = models.OneToOneField(User, null=True, blank=True)
-    email       = models.EmailField()
+    phone       = models.CharField(max_length = 10)
     active      = models.BooleanField(default=True)
     update      = models.DateTimeField(auto_now=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
     # customer_id in Stripe or Braintree
 
     def __str__(self):
-        return self.email
+        return self.phone
     
     objects = BillingProfileManager()
 
@@ -48,7 +48,7 @@ class BillingProfile(models.Model):
 
 
 def user_created_receiver(sender, instance, created, *args, **kwargs):
-    if created and instance.email:
-        BillingProfile.objects.get_or_create(user=instance, email=instance.email)
+    if created and instance.phone:
+        BillingProfile.objects.get_or_create(user=instance, phone=instance.phone)
 
 post_save.connect(user_created_receiver, sender=User)

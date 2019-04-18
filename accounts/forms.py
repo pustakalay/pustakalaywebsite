@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from .models import EmailActivation, GuestEmail
 from django.contrib.auth import authenticate, login
+from django.forms import TextInput
 
 User = get_user_model()
 
@@ -29,7 +30,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email',) #'full_name',)
+        fields = ('phone',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -63,7 +64,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email', 'password', 'is_active', 'admin')
+        fields = ('full_name', 'phone', 'email', 'password', 'is_active', 'admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -92,7 +93,7 @@ class GuestForm(forms.ModelForm):
         return obj
 
 class LoginForm(forms.Form):
-    email    = forms.EmailField(label='Email')
+    phone    = forms.CharField(label='Phone')
     password = forms.CharField(widget=forms.PasswordInput)
 
     def __init__(self, request, *args, **kwargs):
@@ -102,32 +103,31 @@ class LoginForm(forms.Form):
     def clean(self):
         request = self.request
         data = self.cleaned_data
-        email  = data.get("email")
+        phone  = data.get("phone")
         password  = data.get("password")
-        qs = User.objects.filter(email=email)
-        if qs.exists():
-            # user email is registered, check active/
-            not_active = qs.filter(is_active=False)
-            if not_active.exists():
-                ## not active, check email activation
-                link = reverse("account:resend-activation")
-                reconfirm_msg = """Go to <a href='{resend_link}'>
-                resend confirmation email</a>.
-                """.format(resend_link = link)
-                confirm_email = EmailActivation.objects.filter(email=email)
-                is_confirmable = confirm_email.confirmable().exists()
-                if is_confirmable:
-                    msg1 = "Please check your email to confirm your account or " + reconfirm_msg.lower()
-                    raise forms.ValidationError(mark_safe(msg1))
-                email_confirm_exists = EmailActivation.objects.email_exists(email).exists()
-                if email_confirm_exists:
-                    msg2 = "Email not confirmed. " + reconfirm_msg
-                    raise forms.ValidationError(mark_safe(msg2))
-                if not is_confirmable and not email_confirm_exists:
-                    raise forms.ValidationError("This user is inactive.")
-
-
-        user = authenticate(request, username=email, password=password)
+        qs = User.objects.filter(phone=phone)
+        if not qs.exists():
+            raise forms.ValidationError("Mobile number not registered.")
+#             # user email is registered, check active/
+#             not_active = qs.filter(is_active=False)
+#             if not_active.exists():
+#                 ## not active, check email activation
+#                 link = reverse("account:resend-activation")
+#                 reconfirm_msg = """Go to <a href='{resend_link}'>
+#                 resend confirmation email</a>.
+#                 """.format(resend_link = link)
+#                 confirm_email = EmailActivation.objects.filter(email=email)
+#                 is_confirmable = confirm_email.confirmable().exists()
+#                 if is_confirmable:
+#                     msg1 = "Please check your email to confirm your account or " + reconfirm_msg.lower()
+#                     raise forms.ValidationError(mark_safe(msg1))
+#                 email_confirm_exists = EmailActivation.objects.email_exists(email).exists()
+#                 if email_confirm_exists:
+#                     msg2 = "Email not confirmed. " + reconfirm_msg
+#                     raise forms.ValidationError(mark_safe(msg2))
+#                 if not is_confirmable and not email_confirm_exists:
+#                     raise forms.ValidationError("This user is inactive.")
+        user = authenticate(request, username=phone, password=password)
         if user is None:
             raise forms.ValidationError("Invalid credentials")
         login(request, user)
@@ -142,49 +142,30 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('full_name', 'email',) #'full_name',)
-
+        fields = ('phone',)
+        widgets = {
+            'phone': TextInput(attrs={'id' : 'to-mobile-number', 'readonly':''}),
+        } 
+        
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        if len(phone) < 10:
+            raise forms.ValidationError("Invalid phone number.")
+        return phone
+    
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("Passwords don't match.")
         return password2
 
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        user.is_active = False # send confirmation email
+#         user.is_active = False # send confirmation email
         if commit:
             user.save()
         return user
-    
-# class RegisterForm(forms.Form):
-#     username = forms.CharField()
-#     email = forms.EmailField()
-#     password = forms.CharField(widget=forms.PasswordInput)
-#     confirm_password = forms.CharField(label='Confirm Password' , widget=forms.PasswordInput)
-#     
-#     def clean_username(self):
-#         username = self.cleaned_data.get('username')
-#         qs = User.objects.filter(username=username)
-#         if qs.exists():
-#             raise forms.ValidationError("Username is already taken.")
-#         return username
-#     
-#     def clean_email(self):
-#         email = self.cleaned_data.get('email')
-#         qs = User.objects.filter(email=email)
-#         if qs.exists():
-#             raise forms.ValidationError("Email is already taken.")
-#         return email
-#     
-#     def clean(self):
-#         password = self.cleaned_data.get('password')
-#         confirm_password = self.cleaned_data.get('confirm_password')
-#         if password != confirm_password:
-#             raise forms.ValidationError("Passwords must match")
-#         return self.cleaned_data
-#         

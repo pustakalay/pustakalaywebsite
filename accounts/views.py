@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm  
-from django.utils.http import is_safe_url
-from .models import GuestEmail, EmailActivation
+from .models import EmailActivation
 from django.views.generic import CreateView, FormView, DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -74,51 +73,10 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
         next_path = self.get_next_url()
         return redirect(next_path)
 
-
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = '/login/'
-    
-# def login_page(request):
-#     login_form = LoginForm(request.POST or None)
-#     context = {'form' : login_form}
-#     next_ = request.GET.get('next')
-#     next_post = request.POST.get('next')
-#     redirect_path = next_ or next_post or None
-#     if login_form.is_valid():
-#         username = login_form.cleaned_data.get('username')
-#         password = login_form.cleaned_data.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             try:
-#                 del request.session['guest_email_id']
-#             except:
-#                 pass
-#             if is_safe_url(redirect_path, request.get_host()):
-#                 return redirect(redirect_path)
-#             else:
-#                 return redirect('home')
-#         else:
-#             context['error'] = "Incorrect Password"
-#     return render(request, 'accounts/login.html', context)
-# 
-# 
-# User = get_user_model()
-# 
-# 
-# def register_page(request):
-#     register_form = RegisterForm(request.POST or None)
-#     context = {'form' : register_form}
-#     if register_form.is_valid():
-#         username = register_form.cleaned_data.get('username')
-#         email = register_form.cleaned_data.get('email')
-#         password = register_form.cleaned_data.get('password')
-#         user = User.objects.create_user(username, email, password)
-#         return redirect('home')
-#     return render(request, 'accounts/register.html', context)
-
 
 class GuestRegisterView(NextUrlMixin,  RequestFormAttachMixin, CreateView):
     form_class = GuestForm

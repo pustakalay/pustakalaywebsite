@@ -15,10 +15,10 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'admin')
+    list_display = ('phone', 'admin')
     list_filter = ('admin', 'staff', 'is_active')
     fieldsets = (
-        (None, {'fields': ('full_name', 'email', 'password')}),
+        (None, {'fields': ('full_name', 'phone', 'email', 'password')}),
        # ('Full name', {'fields': ()}),
         ('Permissions', {'fields': ('admin', 'staff', 'is_active',)}),
     )
@@ -27,11 +27,11 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
+            'fields': ('phone', 'password1', 'password2')}
         ),
     )
-    search_fields = ('email', 'full_name',)
-    ordering = ('email',)
+    search_fields = ('phone', 'full_name',)
+    ordering = ('phone',)
     filter_horizontal = ()
 
 

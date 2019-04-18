@@ -15,13 +15,13 @@ from django.contrib.auth.models import (
 DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, full_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
-        if not email:
-            raise ValueError("Users must have an email address")
+    def create_user(self, phone, full_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
+        if not phone:
+            raise ValueError("Users must have a phone number")
         if not password:
             raise ValueError("Users must have a password")
         user_obj = self.model(
-            email = self.normalize_email(email),
+            phone = phone,
             full_name=full_name
         )
         user_obj.set_password(password) # change user password
@@ -31,18 +31,18 @@ class UserManager(BaseUserManager):
         user_obj.save(using=self._db)
         return user_obj
 
-    def create_staffuser(self, email,full_name=None, password=None):
+    def create_staffuser(self, phone,full_name=None, password=None):
         user = self.create_user(
-                email,
+                phone,
                 full_name=full_name,
                 password=password,
                 is_staff=True
         )
         return user
 
-    def create_superuser(self, email, full_name=None, password=None):
+    def create_superuser(self, phone, full_name=None, password=None):
         user = self.create_user(
-                email,
+                phone,
                 full_name=full_name,
                 password=password,
                 is_staff=True,
@@ -52,7 +52,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    email       = models.EmailField(max_length=255, unique=True)
+    phone       = models.CharField(max_length=10, unique=True)
+    email       = models.EmailField(max_length=255, unique=True, blank=True, null=True)
     full_name   = models.CharField(max_length=255, blank=True, null=True)
     is_active   = models.BooleanField(default=True) # can login 
     staff       = models.BooleanField(default=False) # staff user non superuser
@@ -61,22 +62,22 @@ class User(AbstractBaseUser):
     # confirm     = models.BooleanField(default=False)
     # confirmed_date     = models.DateTimeField(default=False)
 
-    USERNAME_FIELD = 'email' #username
+    USERNAME_FIELD = 'phone' #username
     # USERNAME_FIELD and password are required by default
     REQUIRED_FIELDS = [] #['full_name'] #python manage.py createsuperuser
 
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.phone
 
     def get_full_name(self):
         if self.full_name:
             return self.full_name
-        return self.email
+        return self.phone
 
     def get_short_name(self):
-        return self.email
+        return self.phone
 
     def has_perm(self, perm, obj=None):
         return True
@@ -197,7 +198,7 @@ def pre_save_email_activation(sender, instance, *args, **kwargs):
         if not instance.key:
             instance.key = unique_key_generator(instance)
 
-pre_save.connect(pre_save_email_activation, sender=EmailActivation)
+# pre_save.connect(pre_save_email_activation, sender=EmailActivation)
 
 
 def post_save_user_create_reciever(sender, instance, created, *args, **kwargs):
@@ -205,7 +206,7 @@ def post_save_user_create_reciever(sender, instance, created, *args, **kwargs):
         obj = EmailActivation.objects.create(user=instance, email=instance.email)
         obj.send_activation()
 
-post_save.connect(post_save_user_create_reciever, sender=User)
+# post_save.connect(post_save_user_create_reciever, sender=User)
 class GuestEmail(models.Model):
     email       = models.EmailField()
     active      = models.BooleanField(default=True)

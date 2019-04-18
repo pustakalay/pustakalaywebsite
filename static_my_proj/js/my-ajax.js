@@ -1,11 +1,7 @@
 $(document)
 		.ready(
 				function() {
-					// Contact Form Handler
-					var contactForm = $(".contact-form")
-					var contactFormMethod = contactForm.attr("method")
-					var contactFormEndpoint = contactForm.attr("action") // /abc/
-
+					
 					function displaySubmitting(submitBtn, defaultText, doSubmit) {
 						if (doSubmit) {
 							submitBtn.addClass("disabled")
@@ -15,8 +11,77 @@ $(document)
 							submitBtn.removeClass("disabled")
 							submitBtn.html(defaultText)
 						}
-
 					}
+					$("#change-otp-number").click(function(event){
+						document.getElementById("change-otp-number").style.display="none";
+						$(".register-form").each(function() {this.reset();});
+						$(".verify-otp-form").each(function() {this.reset();});
+						$(".send-otp-form").each(function() {this.reset();});
+						$(".register-form").hide();
+						$(".verify-otp-form").hide();
+						$(".send-otp-form").show();
+					})
+					// OTP Form handler
+					if ($(".register-form").text().includes("User with this Phone already exists.") || $(".register-form").text().includes("Passwords don't match.") || $(".register-form").text().includes("Invalid phone number."))
+					{
+						$(".send-otp-form").hide();
+					}
+					else
+					{
+						$(".register-form").hide();
+						document.getElementById("change-otp-number").style.display="none";
+					}
+					// Improve here
+					$(".verify-otp-form").hide();						
+					var sendOtpForm = $(".send-otp-form")					
+					var sendOtpFormMethod = sendOtpForm.attr("method")
+					var sendOtpFormEndpoint = sendOtpForm.attr("action")
+					sendOtpForm.submit(function(event) {
+						event.preventDefault();
+						var sendOtpFormData = sendOtpForm.serialize()					
+						$.ajax({
+							method : sendOtpFormMethod,
+							url : sendOtpFormEndpoint,
+							data : sendOtpFormData,
+							success : function(data) {								
+								$(".verify-otp-form").show();
+								sendOtpForm.hide();
+								document.getElementById("from-mobile-number-verify").value = document.getElementById("from-mobile-number-send").value;
+								document.getElementById("change-otp-number").style.display="block";
+							},
+							error : function(error) {
+								alert("Some Error occured while sending OTP.");
+								window.location.href = '/contact/'
+							}
+					})
+					})
+					var verifyOtpForm = $(".verify-otp-form")					
+					var verifyOtpFormMethod = verifyOtpForm.attr("method")
+					var verifyOtpFormEndpoint = verifyOtpForm.attr("action")
+					verifyOtpForm.submit(function(event) {
+						event.preventDefault();
+						var verifyOtpFormData = verifyOtpForm.serialize()					
+						$.ajax({
+							method : verifyOtpFormMethod,
+							url : verifyOtpFormEndpoint,
+							data : verifyOtpFormData,
+							success : function(data) {								
+								$(".register-form").show();
+								verifyOtpForm.hide();
+								document.getElementById("to-mobile-number").value = document.getElementById("from-mobile-number-verify").value;
+								document.getElementById("change-otp-number").style.display="block";
+							},
+							error : function(error) {
+								alert("Some Error occured while verifying OTP.");
+								window.location.href = '/contact/'
+							}
+					})
+					})
+					
+					// Contact Form Handler
+					var contactForm = $(".contact-form")
+					var contactFormMethod = contactForm.attr("method")
+					var contactFormEndpoint = contactForm.attr("action")
 					contactForm.submit(function(event) {
 						event.preventDefault()
 						var contactFormSubmitBtn = contactForm
@@ -137,8 +202,7 @@ $(document)
 												}
 											},
 											error : function(errorData) {
-												$
-														.alert({
+												$.alert({
 															title : "Oops!",
 															content : "An error occurred",
 															theme : "modern",
