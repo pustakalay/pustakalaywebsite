@@ -1,0 +1,11 @@
+Hello {{ name }},
+
+This is a confirmation that we have received your below query:
+
+{{ content }}
+
+We will revert back as soon as possible!
+
+Thank you,
+
+Pustakalay
