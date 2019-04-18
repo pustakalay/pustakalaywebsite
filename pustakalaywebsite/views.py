@@ -40,15 +40,17 @@ def contact_page(request):
                     recipient_list,
                     bcc
             )        
-        email_message.send(fail_silently=False)
-        messages.success(request, "Thank you for your submission.")
+        email_message.send(fail_silently=False)        
         if request.is_ajax():
             return JsonResponse({"message": "Thank you for your submission."})
+        else:
+            messages.success(request, "Thank you for your submission.")
 
     if contact_form.errors:
-        errors = contact_form.errors.as_json()
-        messages.error(request, contact_form.errors)
+        errors = contact_form.errors.as_json()        
         if request.is_ajax():
             return HttpResponse(errors, status=400, content_type='application/json')
+        else:
+            messages.error(request, contact_form.errors)
     return render(request, "contact/view.html", context)
 
