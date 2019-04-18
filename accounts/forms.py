@@ -34,10 +34,10 @@ class UserAdminCreationForm(forms.ModelForm):
 
 class UserDetailChangeForm(forms.ModelForm):
     full_name = forms.CharField(label='Name', required=False, widget=forms.TextInput(attrs={"class": 'form-control'}))
-
+    email  = forms.EmailField(widget=forms.EmailInput(attrs={"class": 'form-control'}))
     class Meta:
         model = User
-        fields = ['full_name']
+        fields = ['full_name', 'email']
 
 class UserAdminChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on

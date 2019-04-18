@@ -4,6 +4,7 @@ from django.views.generic import CreateView, FormView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from pustakalaywebsite.mixins import NextUrlMixin, RequestFormAttachMixin
+from django.contrib.auth import authenticate, login
 
 class AccountHomeView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/home.html'
@@ -23,7 +24,15 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'accounts/register.html'
-    success_url = '/login/'
+    success_url = '/account/details/'
+    
+    def form_valid(self, form):
+        form.save()
+        phone = self.request.POST['phone']
+        password = self.request.POST['password1']
+        user = authenticate(username=phone, password=password)
+        login(self.request, user)
+        return redirect(self.success_url)
     
 class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserDetailChangeForm
@@ -34,7 +43,7 @@ class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetailUpdateView, self).get_context_data(*args, **kwargs)
-        context['title'] = 'Change Your Account Details'
+        context['title'] = 'Update Your Account Details'
         return context
 
     def get_success_url(self):
