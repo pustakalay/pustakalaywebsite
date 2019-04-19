@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import authenticate, login
 from django.forms import TextInput
+from .signals import user_logged_in
 
 User = get_user_model()
 
@@ -76,6 +77,7 @@ class LoginForm(forms.Form):
         if user is None:
             raise forms.ValidationError("Invalid credentials")
         login(request, user)
+        user_logged_in.send(user.__class__, instance=user, request=request)
         self.user = user
         return data
     

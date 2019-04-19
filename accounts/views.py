@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from pustakalaywebsite.mixins import NextUrlMixin, RequestFormAttachMixin
 from django.contrib.auth import authenticate, login
+from .signals import user_logged_in
 
 class AccountHomeView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/home.html'
@@ -32,6 +33,7 @@ class RegisterView(CreateView):
         password = self.request.POST['password1']
         user = authenticate(username=phone, password=password)
         login(self.request, user)
+        user_logged_in.send(user.__class__, instance=user, request=self.request)
         return redirect(self.success_url)
     
 class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
