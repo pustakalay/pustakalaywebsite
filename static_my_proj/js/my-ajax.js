@@ -32,15 +32,28 @@ $(document).ready(function() {
 			method : sendOtpFormMethod,
 			url : sendOtpFormEndpoint,
 			data : sendOtpFormData,
-			success : function(data) {								
-				$(".verify-otp-form").show();
-				sendOtpForm.hide();
-				document.getElementById("from-mobile-number-verify").value = document.getElementById("from-mobile-number-send").value;
-				document.getElementById("change-otp-number").style.display="block";
+			success : function(data) {
+				if (data.type == "success"){
+					$(".verify-otp-form").show();
+					sendOtpForm.hide();
+					document.getElementById("from-mobile-number-verify").value = document.getElementById("from-mobile-number-send").value;
+					document.getElementById("change-otp-number").style.display="block";
+				}	
+				else{
+					$.alert({
+			              title: "Oops!",
+			              content: "Some Error occured while sending OTP.",
+			              theme: "modern",
+			        })
+				}
 			},
 			error : function(error) {
-				alert("Some Error occured while sending OTP.");
-				window.location.href = '/contact/'
+		        $.alert({
+		              title: "Oops!",
+		              content: "Some Error occured while sending OTP.",
+		              theme: "modern",
+		        })
+				setTimeout(function() {window.location.href = '/contact/'}, 2000)
 			}
 	})
 	})
@@ -54,15 +67,28 @@ $(document).ready(function() {
 			method : verifyOtpFormMethod,
 			url : verifyOtpFormEndpoint,
 			data : verifyOtpFormData,
-			success : function(data) {								
-				$(".register-form").show();
-				verifyOtpForm.hide();
-				document.getElementById("to-mobile-number").value = document.getElementById("from-mobile-number-verify").value;
-				document.getElementById("change-otp-number").style.display="block";
+			success : function(data) {
+				if (data.type == "success"){
+					$(".register-form").show();
+					verifyOtpForm.hide();
+					document.getElementById("to-mobile-number").value = document.getElementById("from-mobile-number-verify").value;
+					document.getElementById("change-otp-number").style.display="block";
+				}
+				else{
+					$.alert({
+			              title: "Oops!",
+			              content: "Error occured while verifying OTP : " + data.message,
+			              theme: "modern",
+			        })
+				}
 			},
 			error : function(error) {
-				alert("Some Error occured while verifying OTP.");
-				window.location.href = '/contact/'
+		        $.alert({
+		              title: "Oops!",
+		              content: "Some Error occured while verifying OTP.",
+		              theme: "modern",
+		        })
+		        setTimeout(function() {window.location.href = '/contact/'}, 2000)				
 			}
 	})
 	})
