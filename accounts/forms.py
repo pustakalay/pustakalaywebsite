@@ -4,7 +4,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import authenticate, login
 from django.forms import TextInput
 from .signals import user_logged_in
-
+from django.contrib.auth.password_validation import validate_password
 User = get_user_model()
 
 class UserAdminCreationForm(forms.ModelForm):
@@ -104,6 +104,7 @@ class RegisterForm(forms.ModelForm):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
+        validate_password(password1)
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords don't match.")
         return password2

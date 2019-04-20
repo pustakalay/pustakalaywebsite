@@ -20,7 +20,14 @@ $(document).ready(function() {
 		$(".send-otp-form").show();
 	})
 	// OTP Form handler
-	if ($(".register-form").text().includes("User with this Phone already exists.") || $(".register-form").text().includes("Passwords don't match.") || $(".register-form").text().includes("Invalid phone number."))
+	if ($(".register-form").text().includes("User with this Phone already exists.") || 
+		$(".register-form").text().includes("Passwords don't match.") || 
+		$(".register-form").text().includes("Invalid phone number.") ||
+		$(".register-form").text().includes("This password is too short.") ||
+		$(".register-form").text().includes("This password is entirely numeric.") ||
+		$(".register-form").text().includes("The password is too similar") ||
+		$(".register-form").text().includes("This password is too common.")
+	)
 	{
 		$(".send-otp-form").hide();
 	}
