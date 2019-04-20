@@ -19,7 +19,7 @@ $(document).ready(function() {
 		$(".verify-otp-form").hide();
 		$(".send-otp-form").show();
 	})
-	// OTP Form handler
+	// OTP Form handler -- IMPROVEMENT REQUIRED.
 	if ($(".register-form").text().includes("User with this Phone already exists.") || 
 		$(".register-form").text().includes("Passwords don't match.") || 
 		$(".register-form").text().includes("Invalid phone number.") ||

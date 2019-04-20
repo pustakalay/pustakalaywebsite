@@ -1,0 +1,37 @@
+To Do :
+
+5. Already have OTP.
+7. New user register notification.
+8. buyBook, inventory management.
+            book.numberOfCopiesSold  += 1
+            book.save()
+			 
+To Do Later :
+
+1. Logging using django logging framework (requests, db)
+2. Remove billing address not required.
+3. Delete user session from analytics on logout/session expire.
+          Manual delete with end_session admin -- done.
+4. Associate cart with user. - one user one cart.
+5. Password reset with OTP.			
+6. Improve register with OTP security.
+7. Non-ajax handling for register with OTP. 
+			 
+Before deployment : 
+
+custom domain - purchased at godaddy.
+custom domain email -- ?
+SSL certificate and HTTPS -- ?
+Hosting -- Heroku, Bluehost, Hostgator, Pythonanywhere
+DNS -- ?
+Database -- >
+static files - Amazon s3 (expensive)
+code repository -- Github is public
+MailIntegration -- Mailchimp, Sendgrid
+Payment gateway -- ?			 
+
+Git : 
+
+git checkout HEAD filename: Discards changes in the working directory.
+git reset HEAD filename: Unstages file changes in the staging area.
+git reset commit_SHA: Resets to a previous commit in your commit history.
