@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
+from sms.utils import send_transactional_sms
 
 class UserManager(BaseUserManager):
     def create_user(self, phone, full_name=None, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -58,7 +59,7 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.phone
-
+    
     def get_full_name(self):
         if self.full_name:
             return self.full_name
@@ -85,7 +86,7 @@ class User(AbstractBaseUser):
 
 def post_save_user_create_reciever(sender, instance, created, *args, **kwargs):
     if created:
-        pass
+        send_transactional_sms({instance.phone}, "Welcome to Pustakalay.")
 #         send message to user.
 
 post_save.connect(post_save_user_create_reciever, sender=User)
