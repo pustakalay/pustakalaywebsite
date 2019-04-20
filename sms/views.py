@@ -45,3 +45,20 @@ def send_otp(request):
     if request.is_ajax():
         return JsonResponse(data)
     return HttpResponse(data)
+
+def resend_otp(request):
+    payload = {'authkey': MSG91_AUTH_KEY,
+                'mobile': request.POST.get("phone-number"),
+    }
+#     response = requests.post('http://control.msg91.com/api/retryotp.php', params=payload)
+#     print(payload)
+#     print(response.json())
+#     data = response.json()
+    data = {
+      "message":"otp_sent_successfully",
+      "type":"success"
+    }
+    print(payload)
+    if request.is_ajax():
+        return JsonResponse(data)
+    return HttpResponse(data)

@@ -6,7 +6,7 @@
 <div class="container login_container">
 <form class = 'send-otp-form' action = '{% url "sms:send-otp" %}' method = 'POST'> {% csrf_token %}
   <input id = 'from-mobile-number-send' class = 'form-control col-md-3' pattern=".{10,10}" required type='text' name = 'phone-number'>
-  <input class = 'form-control col-md-1' type="submit" value="Send OTP">
+  <button type='submit' class ='form-control col-md-1 btn btn-info'>Send OTP</button>
 </form>
 </div>
 <input id = 'change-otp-number' class = 'form-control col-md-1' type="submit" value="Change Number">
@@ -14,13 +14,18 @@
 <form class = 'verify-otp-form' action = '{% url "sms:verify-otp" %}' method = 'POST'> {% csrf_token %}
   <input class = 'form-control col-md-3' id = 'from-mobile-number-verify' type="text" name="phone-number" readonly maxlength="10" required>
   <input class = 'form-control col-md-3' pattern=".{4,4}" required type='text' name = 'otp-number'>
-  <input class = 'form-control col-md-1' type="submit" value="Verify OTP">
+  <button type='submit' class ='form-control col-md-1 btn btn-info'>Verify OTP</button>
+</form>
+<p class = 'resend-otp-text'>Haven't received OTP?</p>
+<form class = 'resend-otp-form' action = '{% url "sms:resend-otp" %}' method = 'POST'> {% csrf_token %}
+  <input class = 'form-control col-md-3' id = 'from-mobile-number-resend' type="hidden" name="phone-number" readonly maxlength="10" required>
+  <button type='submit' class ='form-control col-md-1 btn btn-info'>Resend OTP</button>
 </form>
 </div>
 <div class="container">
 <form class = 'register-form' method="POST">{% csrf_token %}
 	{{ form }} 
-	<input class = 'form-control' type="submit" value="Register">
+	<button type='submit' class ='form-control col-md-1 btn btn-info'>Register</button>
 </form>
 </div>
 {% endblock %}
