@@ -10,6 +10,15 @@ $(document).ready(function() {
 		}
 	}
 	
+	$("#already-have-otp-button").click(function(event){
+		document.getElementById("already-have-otp-button").style.display="none";
+		$(".verify-otp-form").show();
+		sendOtpForm.hide();
+		document.getElementById("from-mobile-number-verify").value = document.getElementById("from-mobile-number-send").value;
+		document.getElementById("change-otp-number").style.display="block";
+		$("#from-mobile-number-verify").prop("readonly", false);
+	})
+	
 	$("#change-otp-number").click(function(event){
 		document.getElementById("change-otp-number").style.display="none";
 		$(".register-form").each(function() {this.reset();});
@@ -18,6 +27,7 @@ $(document).ready(function() {
 		$(".register-form").hide();
 		$(".verify-otp-form").hide();
 		$(".send-otp-form").show();
+		document.getElementById("already-have-otp-button").style.display="block";
 	})
 	// OTP Form handler -- IMPROVEMENT REQUIRED.
 	if ($(".register-form").text().includes("User with this Phone already exists.") || 
@@ -30,6 +40,7 @@ $(document).ready(function() {
 	)
 	{
 		$(".send-otp-form").hide();
+		document.getElementById("already-have-otp-button").style.display="none";
 	}
 	else
 	{
@@ -62,6 +73,8 @@ $(document).ready(function() {
 				}, 500)
 				if (data.type == "success"){
 					$(".verify-otp-form").show();
+					$("#from-mobile-number-verify").prop("readonly", true);
+					document.getElementById("already-have-otp-button").style.display="none";
 					$(".resend-otp-form").show();
 					$(".resend-otp-text").show();
 					sendOtpForm.hide();

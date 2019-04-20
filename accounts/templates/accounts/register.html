@@ -8,8 +8,9 @@
   <input id = 'from-mobile-number-send' class = 'form-control col-md-3' pattern=".{10,10}" required type='text' name = 'phone-number'>
   <button type='submit' class ='form-control col-md-1 btn btn-info'>Send OTP</button>
 </form>
+<button id = 'change-otp-number' class = 'form-control col-md-1 btn btn-success' type="button">Change Number</button>
+<button id = 'already-have-otp-button' class = 'form-control col-md-2 btn btn-primary' type="button" onclick="alreadyHaveOtp()">Already have OTP</button>
 </div>
-<input id = 'change-otp-number' class = 'form-control col-md-1' type="submit" value="Change Number">
 <div class="container login_container">
 <form class = 'verify-otp-form' action = '{% url "sms:verify-otp" %}' method = 'POST'> {% csrf_token %}
   <input class = 'form-control col-md-3' id = 'from-mobile-number-verify' type="text" name="phone-number" readonly maxlength="10" required>
