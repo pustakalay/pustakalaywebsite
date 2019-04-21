@@ -1,8 +1,7 @@
 To Do :
 
-8. buyBook, inventory management.
-            book.numberOfCopiesSold  += 1
-            book.save()
+9. multiple books handling.
+10. Single book in 2 carts handling, negative inventory handling.
 			 
 To Do Later :
 
