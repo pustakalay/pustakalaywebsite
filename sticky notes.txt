@@ -1,6 +1,6 @@
 To Do :
 
-9. multiple books handling.
+9. multiple books handling -- https://docs.djangoproject.com/en/1.11/topics/db/models/#extra-fields-on-many-to-many-relationships
 10. Single book in 2 carts handling, negative inventory handling.
 			 
 To Do Later :
@@ -10,9 +10,8 @@ To Do Later :
 3. Delete user session from analytics on logout/session expire.
           Manual delete with end_session admin -- done.
 4. Associate cart with user. - one user one cart.
-5. Password reset with OTP.			
-6. Improve register with OTP security.
-7. Non-ajax handling for register with OTP. 
+5. Password reset with OTP.
+6. Non-ajax handling for resend OTP. 			
 			 
 Before deployment : 
 

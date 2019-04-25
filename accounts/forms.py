@@ -2,9 +2,11 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import authenticate, login
-from django.forms import TextInput
 from .signals import user_logged_in
 from django.contrib.auth.password_validation import validate_password
+from sms.utils import verify_otp
+import re
+
 User = get_user_model()
 
 class UserAdminCreationForm(forms.ModelForm):
@@ -60,7 +62,7 @@ class UserAdminChangeForm(forms.ModelForm):
 class LoginForm(forms.Form):
     phone    = forms.CharField(label='Phone')
     password = forms.CharField(widget=forms.PasswordInput)
-
+    
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super(LoginForm, self).__init__(*args, **kwargs)
@@ -80,23 +82,47 @@ class LoginForm(forms.Form):
         user_logged_in.send(user.__class__, instance=user, request=request)
         self.user = user
         return data
+
+class SendOtpForm(forms.ModelForm):    
+    class Meta:
+        model = User
+        fields = ('phone',)
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        phone_regex = re.compile(r'^\d{10}$')
+        if not phone_regex.match(phone):
+            raise forms.ValidationError("Invalid phone number.")
+        return phone
     
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
+    otp = forms.CharField(label='OTP', widget=forms.TextInput)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = User
         fields = ('phone',)
-        widgets = {
-            'phone': TextInput(attrs={'id' : 'to-mobile-number', 'readonly':''}),
+        widgets = { 
+            'phone': forms.TextInput(attrs={'readonly': '', 'id' : 'from-mobile-number'}),
         } 
         
+    def clean_otp(self):
+        phone = self.cleaned_data.get("otp")
+        phone_regex = re.compile(r'^\d{4}$')
+        if not phone_regex.match(phone):
+            raise forms.ValidationError("Otp must be 4 digit number.")
+        data = verify_otp(self.cleaned_data.get("phone"), self.cleaned_data.get("otp"))
+        if "success" != data['type']:
+            raise forms.ValidationError("OTP not verified." + data['message'])
+        return self.cleaned_data.get("otp")
+    
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
-        if len(phone) < 10:
+        phone_regex = re.compile(r'^\d{10}$')
+        if not phone_regex.match(phone):
             raise forms.ValidationError("Invalid phone number.")
         return phone
     

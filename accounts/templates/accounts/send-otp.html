@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<br>
+<div class="container login_container">
+<form method = 'POST'> {% csrf_token %}
+  {{ form }}
+  <button type='submit' class ='form-control col-md-1 btn btn-info'>Send OTP</button>
+</form>
+<button id = 'already-have-otp-button' class = 'form-control col-md-2 btn btn-primary' type="button" >Already have OTP</button>
+{% endblock %}

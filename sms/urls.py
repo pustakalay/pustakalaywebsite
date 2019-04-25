@@ -1,10 +1,8 @@
 from django.conf.urls import url
-from .views import verify_otp, send_otp, resend_otp, check_balance
+from .views import resend_otp, check_balance
 
 
 urlpatterns = [
     url(r'^check-balance/$', check_balance, name='check-balance'),
-    url(r'^send-otp/$', send_otp, name='send-otp'),
-    url(r'^verify-otp/$', verify_otp, name='verify-otp'),
     url(r'^resend-otp/$', resend_otp, name='resend-otp'),
     ]
