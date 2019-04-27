@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+IS_SMS_SIMULATED = False
 # Application definition
 
 INSTALLED_APPS = [

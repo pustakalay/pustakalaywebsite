@@ -10,15 +10,6 @@ $(document).ready(function() {
 		}
 	}
 	
-//	$("#already-have-otp-button").click(function(event){
-//		document.getElementById("already-have-otp-button").style.display="none";
-//		$(".verify-otp-form").show();
-//		sendOtpForm.hide();
-//		document.getElementById("from-mobile-number-verify").value = document.getElementById("from-mobile-number-send").value;
-//		document.getElementById("change-otp-number").style.display="block";
-//		$("#from-mobile-number-verify").prop("readonly", false);
-//	})
-//	
 	var resendOtpForm = $(".resend-otp-form")					
 	var resendOtpFormMethod = resendOtpForm.attr("method")
 	var resendOtpFormEndpoint = resendOtpForm.attr("action")
@@ -62,8 +53,7 @@ $(document).ready(function() {
 		              title: "Oops!",
 		              content: "Some Error occured while resending OTP.",
 		              theme: "modern",
-		        })
-		        setTimeout(function() {window.location.href = '/contact/'}, 500)				
+		        })		     				
 			}
 	})
 	})
