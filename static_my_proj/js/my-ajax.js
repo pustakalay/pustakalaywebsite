@@ -10,6 +10,10 @@ $(document).ready(function() {
 		}
 	}
 	
+	$("#already-have-otp-button").click(function(event){
+		window.location.href = element.href + '/' + document.getElementById("mobile-number").value
+	})
+	
 	var resendOtpForm = $(".resend-otp-form")					
 	var resendOtpFormMethod = resendOtpForm.attr("method")
 	var resendOtpFormEndpoint = resendOtpForm.attr("action")

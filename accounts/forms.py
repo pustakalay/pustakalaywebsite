@@ -87,6 +87,9 @@ class SendOtpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('phone',)
+        widgets = { 
+            'phone': forms.TextInput(attrs={'id' : 'mobile-number'}),
+        } 
     
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
