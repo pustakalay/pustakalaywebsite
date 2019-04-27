@@ -1,7 +1,7 @@
 <form class='form-product-ajax' method='POST' action='{% url "carts:update" %}' data-endpoint='{% url "carts:update" %}' class="form"> {% csrf_token %}
     <input type='hidden' name='book_id' value='{{ product.id }}' />
       <span class='submit-span'>
-    {% if product.inventory <= 0 %}
+    {% if not product.is_inventory_available %}
     	<p> Out of Stock. </p> 
     {% elif product in cart.books.all %}
         In cart <button type='submit' class='btn btn-danger'>Remove?</button>

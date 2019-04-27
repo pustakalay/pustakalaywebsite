@@ -56,7 +56,7 @@
     {% else %}
 
     <h1>Finalize Checkout</h1>
-    <p>Cart Items: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %},
+    <p>Cart Items: {% for product in object.cart.books.all %}{{ product }}{% if not forloop.last %},
         {% endif %}{% endfor %}</p>
     <p>Shipping Address: {{ object.shipping_address_final }}</p>
     <p>Billing Address: {{ object.billing_address_final }}</p>

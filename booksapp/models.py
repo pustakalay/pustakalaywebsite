@@ -74,6 +74,9 @@ class Book(models.Model):
 #         return "/books/{slug}/".format(slug=self.slug)
           return reverse("books:booksdetail", kwargs={"slug": self.slug})
 
+    def is_inventory_available(self):
+        return not self.inventory <= 0  
+
     LANGUAGE_CHOICES = (
         ('HINDI', 'Hindi'),
         ('ENGLISH', 'English'),
