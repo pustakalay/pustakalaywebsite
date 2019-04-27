@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login
 from .signals import user_logged_in
 from django.shortcuts import render, redirect 
 from django.urls import reverse
-from urllib.parse import urlencode
 from django.contrib import messages
 from accounts.forms import SendOtpForm
 from sms.utils import send_otp

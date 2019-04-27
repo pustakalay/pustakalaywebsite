@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from booksapp.models import Book
-from django.db.models.signals import pre_save, m2m_changed
+from django.db.models.signals import pre_save, m2m_changed, post_save
 
 User = settings.AUTH_USER_MODEL
 
@@ -32,6 +32,7 @@ class CartManager(models.Manager):
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True)
     books       = models.ManyToManyField(Book, blank=True)
+    books_removed = models.ManyToManyField(Book, related_name="books_removed", blank=True)
     subtotal    = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated     = models.DateTimeField(auto_now=True)
@@ -55,12 +56,17 @@ def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
 m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.books.through)
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
-    for book in instance.books.all():
-        if not book.is_inventory_available():
-            instance.books.remove(book)
-            print("Removed book " + book.name + " from cart.")
     if instance.subtotal > 0:
         instance.total = float(instance.subtotal) * float(1.10) # 10% tax)
     else:
         instance.total = 0.00
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
+
+def post_save_cart_receiver(sender, instance, *args, **kwargs):
+    if instance.books.count() != 0:
+        for book in instance.books.all():
+            if not book.is_inventory_available():
+                instance.books.remove(book)
+                instance.books_removed.add(book)
+                
+post_save.connect(post_save_cart_receiver, sender=Cart)

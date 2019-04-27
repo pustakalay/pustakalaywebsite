@@ -1,7 +1,6 @@
 To Do :
 
 9. multiple books handling -- https://docs.djangoproject.com/en/1.11/topics/db/models/#extra-fields-on-many-to-many-relationships
-10. Notification to user, in case book from cart goes out of stock.
 			 
 To Do Later :
 
