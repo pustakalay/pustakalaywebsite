@@ -31,8 +31,8 @@ class CartManager(models.Manager):
 
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True)
-    books       = models.ManyToManyField(Book, blank=True)
-    books_removed = models.ManyToManyField(Book, related_name="books_removed", blank=True)
+    books       = models.ManyToManyField(Book, related_name="cart", through='BookQuantity', blank=True)
+    books_removed = models.ManyToManyField(Book, related_name="removed_from_cart", through='BookRemovedQuantity', blank=True)
     subtotal    = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated     = models.DateTimeField(auto_now=True)
@@ -42,6 +42,19 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class BookQuantity(models.Model):
+    cart = models.ForeignKey(Cart, related_name='book_quantity', on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(Book, related_name='book_quantity', on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.books.name)
+    
+class BookRemovedQuantity(models.Model):
+    cart = models.ForeignKey(Cart, related_name='book_removed_quantity', on_delete=models.SET_NULL, null=True)
+    book_removed = models.ForeignKey(Book, related_name='book_removed_quantity', on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.IntegerField()
         
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
