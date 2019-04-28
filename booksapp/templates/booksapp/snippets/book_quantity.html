@@ -1,0 +1,18 @@
+{% if quantity == 0 %}
+<form class='form-product-ajax' method='POST' action='{% url "carts:add_to_cart" %}' data-endpoint='{% url "carts:add_to_cart" %}' class="form"> {% csrf_token %}
+    <input type='hidden' name='book_id' value='{{ book_id }}' />
+    <button type='submit'  class='btn btn-success'>Add to cart</button>
+</form>
+{% elif quantity > 0 %}
+<div class = 'row'>
+<form class='form-product-ajax' method='POST' action='{% url "carts:remove_from_cart" %}' data-endpoint='{% url "carts:remove_from_cart" %}' class="form"> {% csrf_token %}
+    <input type='hidden' name='book_id' value='{{ book_id }}' />
+    <button type='submit' class='btn btn-danger'>-</button>
+</form>
+<p>""{{ quantity }}""</p>
+<form class='form-product-ajax' method='POST' action='{% url "carts:add_to_cart" %}' data-endpoint='{% url "carts:add_to_cart" %}' class="form"> {% csrf_token %}
+    <input type='hidden' name='book_id' value='{{ book_id }}' />
+    <button type='submit'  class='btn btn-success'>+</button>
+</form>
+</div>
+{% endif %}

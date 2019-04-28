@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect 
-from .models import Cart
+from .models import Cart, BookQuantity
 from booksapp.models import Book
 from orders.models import Order
 from accounts.forms import LoginForm
@@ -28,10 +28,10 @@ def cart_home(request):
         for book in cart_obj.books_removed.all():
             messages.add_message(request, messages.ERROR, "Book " + book.name + " has been removed from your cart. Because it went out of stock.")
             cart_obj.books_removed.remove(book)
-    request.session['cart_item_count'] = cart_obj.books.count()
+    request.session['cart_item_count'] = cart_obj.get_books_count()
     return render(request, "carts/home.html", {'cart' : cart_obj})
 
-def cart_update(request):
+def add_to_cart(request):
     book_id = request.POST.get('book_id')
     if book_id is not None:
         try:
@@ -40,22 +40,34 @@ def cart_update(request):
             messages.add_message(request, messages.ERROR, "Book is out of stock.")
             return redirect("carts:home")
         cart_obj, new_obj = Cart.objects.new_or_get(request)
-        if book_obj in cart_obj.books.all():
-            cart_obj.books.remove(book_obj)
-            added = False
+        book_quantity, created = BookQuantity.objects.get_or_create(cart=cart_obj, book=book_obj)
+        if created:
+            book_quantity.quantity = 1            
         else:
-            cart_obj.books.add(book_obj)
-            added = True
-        request.session['cart_item_count'] = cart_obj.books.count()
+            book_quantity.quantity = book_quantity.quantity + 1
+        book_quantity.save()
+        request.session['cart_item_count'] = cart_obj.get_books_count()
         if request.is_ajax(): # Asynchronous JavaScript And XML / JSON
             json_data = {
-                "added": added,
-                "removed": not added,
-                "cartItemCount": cart_obj.books.count()
+                "added": True,
+                "removed": not True,
+                "cartItemCount": cart_obj.get_books_count()
             }
             return JsonResponse(json_data)
+    return redirect("carts:home")  
 
-    return redirect("carts:home")
+def remove_from_cart(request):
+    book_id = request.POST.get('book_id')
+    if book_id is not None:
+        cart_obj, new_obj = Cart.objects.new_or_get(request)
+        book_obj = Book.objects.get(id=book_id)
+        book_quantity, created = BookQuantity.objects.get_or_create(cart=cart_obj, book=book_obj)
+        book_quantity.quantity = book_quantity.quantity - 1
+        book_quantity.save()
+        if book_quantity.quantity <= 0:
+            book_quantity.delete()
+        request.session['cart_item_count'] = cart_obj.books.count()
+    return redirect("carts:home")      
 
 def checkout_home(request):
     cart_obj, cart_created = Cart.objects.new_or_get(request)

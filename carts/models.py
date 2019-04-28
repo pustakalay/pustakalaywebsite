@@ -42,14 +42,20 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.id)
-
+    
+    def get_books_count(self):
+        quantity = 0
+        for book_quantity in BookQuantity.objects.filter(cart=self):
+            quantity = book_quantity.quantity + quantity
+        return quantity
+    
 class BookQuantity(models.Model):
     cart = models.ForeignKey(Cart, related_name='book_quantity', on_delete=models.SET_NULL, null=True)
     book = models.ForeignKey(Book, related_name='book_quantity', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(null=True, blank=True)
     
     def __str__(self):
-        return str(self.books.name)
+        return str(self.book.name)
     
 class BookRemovedQuantity(models.Model):
     cart = models.ForeignKey(Cart, related_name='book_removed_quantity', on_delete=models.SET_NULL, null=True)
