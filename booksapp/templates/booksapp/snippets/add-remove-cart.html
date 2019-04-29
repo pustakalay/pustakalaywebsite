@@ -1,0 +1,15 @@
+<div class = 'row'>
+<form class='form-product-ajax' method='POST' action='{% url "carts:remove_from_cart" %}' data-endpoint='{% url "carts:remove_from_cart" %}' class="form"> {% csrf_token %}
+    <input type='hidden' name='book_id' value='{{ product_id }}' />
+    <button type='submit' class='btn btn-danger'>-</button>
+</form>
+<p>""{{ quantity }}""</p>
+{% if not quantity >= book_inventory %}
+<form class='form-product-ajax' method='POST' action='{% url "carts:add_to_cart" %}' data-endpoint='{% url "carts:add_to_cart" %}' class="form"> {% csrf_token %}
+    <input type='hidden' name='book_id' value='{{ product_id }}' />
+    <button type='submit'  class='btn btn-success'>+</button>
+</form>
+{% else %}
+<p>Only {{ quantity }} remaining.</p>
+{% endif %}
+</div>

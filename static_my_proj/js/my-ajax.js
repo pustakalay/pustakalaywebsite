@@ -160,22 +160,19 @@ $(document).ready(function() {
 //							method : httpMethod,
 //							data : formData,
 //							success : function(data) {
-//								var submitSpan = thisForm
-//										.find(".submit-span")
-//								if (data.added) {
+//								var submitSpan = document.getElementById("submit-span")
+//								if (data.quantity == 0) {
 //									submitSpan
-//											.html("In cart <button type='submit' class='btn btn-danger'>Remove?</button>")
+//											.innerhtml = "{% include 'booksapp/snippets/add-to-cart.html' with product_id="+data.book_id+" %}"
 //								} else {
 //									submitSpan
-//											.html("<button type='submit'  class='btn btn-success'>Add to cart</button>")
+//											.innerhtml = "{% include 'booksapp/snippets/add-remove-cart.html' with product_id="+data.book_id+" quantity="+data.quantity+" %}"
 //								}
 //								var navbarCount = $(".navbar-cart-count")
 //								navbarCount
 //										.text(data.cartItemCount)
 //								var currentPath = window.location.href
-//								if (currentPath.indexOf("cart") != -1) {
-//									refreshCart()
-//								}
+////								window.reload()								
 //							},
 //							error : function(errorData) {
 //								$.alert({

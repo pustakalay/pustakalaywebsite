@@ -10,5 +10,6 @@ def get_book_cart_quantity(book_obj, cart_obj):
     except:
         quantity = 0
     return {'quantity': quantity,
-            'book_id' : book_obj.id
+            'book_id' : book_obj.id,
+            'book_inventory' : book_obj.inventory
             }

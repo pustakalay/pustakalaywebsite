@@ -1,13 +1,10 @@
 {% load book_cart_quantity%}
+<span id='submit-span'>
 {% if not product.is_inventory_available %}
 	<p> Out of Stock. </p>
-<span class='submit-span'>
 {% elif product in cart.books.all %}
 	<p> {% get_book_cart_quantity product cart %} </p>    	
 {% else %}
-<form class='form-product-ajax' method='POST' action='{% url "carts:add_to_cart" %}' data-endpoint='{% url "carts:add_to_cart" %}' class="form"> {% csrf_token %}
-    <input type='hidden' name='book_id' value='{{ product.id }}' />
-    <button type='submit'  class='btn btn-success'>Add to cart</button>
-</form>
+	{% include 'booksapp/snippets/add-to-cart.html' with product_id=product.id %}
 {% endif %}
 </span>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect 
-from .models import Cart, BookQuantity
+from .models import Cart, BookQuantity, BookRemovedQuantity
 from booksapp.models import Book
 from orders.models import Order
 from accounts.forms import LoginForm
@@ -26,8 +26,15 @@ def cart_home(request):
     cart_obj.save()
     if cart_obj.books_removed.count() != 0:
         for book in cart_obj.books_removed.all():
-            messages.add_message(request, messages.ERROR, "Book " + book.name + " has been removed from your cart. Because it went out of stock.")
-            cart_obj.books_removed.remove(book)
+            book_removed_quantity = BookRemovedQuantity.objects.get(cart=cart_obj, book_removed=book)
+            book_quantity = BookQuantity.objects.get(cart=cart_obj, book=book)
+            messages.add_message(request, messages.ERROR, str(book_removed_quantity.quantity)+ " Book " + book.name + " has been removed from your cart. Because it went out of stock.")
+            book_quantity.quantity = book_quantity.quantity -  book_removed_quantity.quantity
+            book_quantity.save()
+            book_removed_quantity.delete()
+            if book_quantity.quantity <= 0:
+                book_quantity.delete()
+    cart_obj, new_obj = Cart.objects.new_or_get(request)
     request.session['cart_item_count'] = cart_obj.get_books_count()
     return render(request, "carts/home.html", {'cart' : cart_obj})
 
@@ -49,8 +56,8 @@ def add_to_cart(request):
         request.session['cart_item_count'] = cart_obj.get_books_count()
         if request.is_ajax(): # Asynchronous JavaScript And XML / JSON
             json_data = {
-                "added": True,
-                "removed": not True,
+                "book_id": book_obj.id,
+                "quantity": book_quantity.quantity,
                 "cartItemCount": cart_obj.get_books_count()
             }
             return JsonResponse(json_data)
@@ -67,6 +74,13 @@ def remove_from_cart(request):
         if book_quantity.quantity <= 0:
             book_quantity.delete()
         request.session['cart_item_count'] = cart_obj.books.count()
+        if request.is_ajax(): # Asynchronous JavaScript And XML / JSON
+            json_data = {
+                "book_id": book_obj.id,
+                "quantity": book_quantity.quantity,
+                "cartItemCount": cart_obj.get_books_count()
+            }
+            return JsonResponse(json_data)
     return redirect("carts:home")      
 
 def checkout_home(request):

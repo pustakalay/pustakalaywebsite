@@ -62,21 +62,22 @@ class BookRemovedQuantity(models.Model):
     book_removed = models.ForeignKey(Book, related_name='book_removed_quantity', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField()
         
-def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
-    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
-        books = instance.books.all()
-        total = 0
-        for x in books:
-            total += x.price
-        if instance.subtotal != total:
-            instance.subtotal = total
-            instance.save()
+def post_save_book_quantity_receiver(sender, instance, *args, **kwargs):
+    books = instance.cart.books.all()
+    total = 0
+    for x in books:
+        book_quantity = BookQuantity.objects.get(cart=instance.cart,book=x)
+        if book_quantity.quantity is not None:
+            total += (x.price*book_quantity.quantity)
+    if instance.cart.subtotal != total:
+        instance.cart.subtotal = total
+        instance.cart.save()
 
-m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.books.through)
+post_save.connect(post_save_book_quantity_receiver, sender=BookQuantity)
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
-        instance.total = float(instance.subtotal) * float(1.10) # 10% tax)
+        instance.total = float(instance.subtotal) + 50 #Shipping Charges    
     else:
         instance.total = 0.00
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
@@ -84,8 +85,10 @@ pre_save.connect(pre_save_cart_receiver, sender=Cart)
 def post_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.books.count() != 0:
         for book in instance.books.all():
-            if not book.is_inventory_available():
-                instance.books.remove(book)
-                instance.books_removed.add(book)
-                
+            book_quantity = BookQuantity.objects.get(cart=instance,book=book)
+            if book_quantity.quantity is not None:
+                diff = book.inventory - book_quantity.quantity
+                if (diff) < 0:                                                   
+                    book_removed_quantity, created = BookRemovedQuantity.objects.get_or_create(cart=instance, book_removed=book, quantity = -diff)
+                        
 post_save.connect(post_save_cart_receiver, sender=Cart)
