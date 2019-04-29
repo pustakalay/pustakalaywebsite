@@ -8,6 +8,7 @@ from accounts.signals import user_logged_in
 from .signals import object_viewed_signal
 from pustakalaywebsite.utils import get_client_ip
 from django.core.exceptions import ObjectDoesNotExist
+from carts.models import Cart, BookQuantity
 
 User = settings.AUTH_USER_MODEL
 
@@ -114,5 +115,23 @@ def user_logged_in_receiver(sender, instance, request, *args, **kwargs):
             ip_address=ip_address,
             session_key=session_key
         )
+    mergeCarts(user,request)
+
+def mergeCarts(user,request):
+    cart_id = request.session.get("cart_id", None)
+    cart_qs = Cart.objects.filter(user=user)
+    if cart_id is not None and cart_qs.exists():
+        anonymous_cart = Cart.objects.filter(id=cart_id).first()
+        user_cart = cart_qs.first()
+        for anonymous_book_quantity in anonymous_cart.book_quantity.all():
+            user_book_quantity, created = BookQuantity.objects.get_or_create(cart=user_cart, book=anonymous_book_quantity.book)
+            if created:
+                user_book_quantity.quantity = anonymous_book_quantity.quantity            
+            else:
+                user_book_quantity.quantity = user_book_quantity.quantity + anonymous_book_quantity.quantity
+        user_book_quantity.save()
+        request.session['cart_item_count'] = user_cart.get_books_count()        
+        Cart.objects.filter(id=cart_id).delete()
+        request.session['cart_id'] = user_cart.id
 
 user_logged_in.connect(user_logged_in_receiver)

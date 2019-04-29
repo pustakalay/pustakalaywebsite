@@ -13,21 +13,14 @@ class CartManager(models.Manager):
         if qs.count() == 1:
             new_obj = False
             cart_obj = qs.first()
-            if request.user.is_authenticated() and cart_obj.user is None:
-                cart_obj.user = request.user
-                cart_obj.save()
         else:
-            new_obj = True
-            cart_obj = Cart.objects.new(user=request.user)
+            if request.user.is_authenticated():
+                cart_obj, new_obj = Cart.objects.get_or_create(user=request.user)
+            else:                
+                new_obj = True
+                cart_obj = Cart.objects.create(user = None)
             request.session['cart_id'] = cart_obj.id
         return cart_obj, new_obj
-    
-    def new(self, user=None):
-        user_obj = None
-        if user is not None:
-            if user.is_authenticated():
-                user_obj = user
-        return self.model.objects.create(user=user_obj)
 
 class Cart(models.Model):
     user        = models.ForeignKey(User, null=True, blank=True)
