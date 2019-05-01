@@ -129,7 +129,7 @@ def mergeCarts(user,request):
                 user_book_quantity.quantity = anonymous_book_quantity.quantity            
             else:
                 user_book_quantity.quantity = user_book_quantity.quantity + anonymous_book_quantity.quantity
-        user_book_quantity.save()
+            user_book_quantity.save()
         request.session['cart_item_count'] = user_cart.get_books_count()        
         Cart.objects.filter(id=cart_id).delete()
         request.session['cart_id'] = user_cart.id
