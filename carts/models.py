@@ -15,7 +15,7 @@ class CartManager(models.Manager):
             cart_obj = qs.first()
         else:
             if request.user.is_authenticated():
-                cart_obj, new_obj = Cart.objects.get_or_create(user=request.user)
+                cart_obj, new_obj = Cart.objects.get_or_create(user=request.user, active=True)
             else:                
                 new_obj = True
                 cart_obj = Cart.objects.create(user = None)
@@ -30,6 +30,7 @@ class Cart(models.Model):
     total       = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated     = models.DateTimeField(auto_now=True)
     timestamp   = models.DateTimeField(auto_now_add=True)
+    active      = models.BooleanField(default=True)
     
     objects = CartManager()
 

@@ -124,11 +124,14 @@ def checkout_home(request):
         if is_done:
             order_obj.mark_paid()
             for book in order_obj.cart.books.all():
-                book.numberOfCopiesSold  += 1
-                book.inventory -= 1
+                book_quantity = BookQuantity.objects.get(cart=cart_obj, book=book)
+                book.numberOfCopiesSold  += book_quantity.quantity
+                book.inventory -= book_quantity.quantity
                 book.save()
             del request.session['cart_item_count']
             del request.session['cart_id']
+            cart_obj.active = False
+            cart_obj.save()
             return redirect("carts:success")
     
     cart_obj.save()

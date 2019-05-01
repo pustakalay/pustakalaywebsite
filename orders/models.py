@@ -55,7 +55,7 @@ class Order(models.Model):
     billing_address_final     = models.TextField(blank=True, null=True)
     cart            = models.ForeignKey(Cart)
     status          = models.CharField(max_length=120, default='created', choices=ORDER_STATUS_CHOICES)
-    shipping_total  = models.DecimalField(default=5.99, max_digits=100, decimal_places=2)
+    shipping_total  = models.DecimalField(default=35.00, max_digits=100, decimal_places=2)
     total           = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     active          = models.BooleanField(default=True)
     updated             = models.DateTimeField(auto_now=True)
@@ -132,7 +132,6 @@ post_save.connect(post_save_cart_total, sender=Cart)
 
 def post_save_order(sender, instance, created, *args, **kwargs):
     if created:
-        print("Updating... first")
         instance.update_total()
 
 
