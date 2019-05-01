@@ -2,9 +2,12 @@ To Do:
 
 1. Logging using django logging framework (requests, db)
 2. Remove billing address not required.
+3. Change address option to add.
+4. Available at pincode? Integrate with pin code api.
 5. Password reset with OTP.
 6. Non-ajax handling for resend OTP. 
-7. multiple books add/remove ajax handling			
+7. multiple books add/remove ajax handling, enter quantity option.
+	
 			 
 Before deployment : 
 

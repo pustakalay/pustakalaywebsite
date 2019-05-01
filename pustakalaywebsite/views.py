@@ -25,7 +25,8 @@ def contact_page(request):
         content = contact_form.cleaned_data.get('content')
         context = {
             'name': name,
-            'content': content
+            'content': content,
+            "form": contact_form
         }
         txt_ = get_template("contact/contact-us.txt").render(context)
 #         html_ = get_template("contact/contact-us.html").render(context)
