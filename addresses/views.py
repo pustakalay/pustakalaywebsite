@@ -24,7 +24,6 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
         billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
         return Address.objects.filter(billing_profile=billing_profile)
 
-
 class AddressCreateView(LoginRequiredMixin, CreateView):
     template_name = 'addresses/update.html'
     form_class = AddressForm
