@@ -137,6 +137,9 @@ def mergeCarts(user,request):
 user_logged_in.connect(user_logged_in_receiver)
 
 def sessionend_handler(sender, instance, **kwargs):
-    UserSession.objects.get(session_key = instance.session_key).delete()
+    try : 
+        UserSession.objects.get(session_key = instance.session_key).delete()
+    except:
+        print("UserSession with session_key " +instance.session_key+" does not exist. ")
 
 pre_delete.connect(sessionend_handler, sender=Session)
