@@ -2,9 +2,6 @@ To Do:
 
 1. Logging using django logging framework (requests, db)
 2. Remove billing address not required.
-3. Delete user session from analytics on logout/session expire.
-          Manual delete with end_session admin -- done.
-4. Associate cart with user. - one user one cart.
 5. Password reset with OTP.
 6. Non-ajax handling for resend OTP. 
 7. multiple books add/remove ajax handling			

@@ -3,7 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sessions.models import Session
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from accounts.signals import user_logged_in
 from .signals import object_viewed_signal
 from pustakalaywebsite.utils import get_client_ip
@@ -135,3 +135,8 @@ def mergeCarts(user,request):
         request.session['cart_id'] = user_cart.id
 
 user_logged_in.connect(user_logged_in_receiver)
+
+def sessionend_handler(sender, instance, **kwargs):
+    UserSession.objects.get(session_key = instance.session_key).delete()
+
+pre_delete.connect(sessionend_handler, sender=Session)
