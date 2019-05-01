@@ -1,6 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 import requests
 from pustakalaywebsite.settings import MSG91_AUTH_KEY, IS_SMS_SIMULATED
+from django.urls import reverse
+from django.shortcuts import redirect 
 
 def check_balance(request):
     payload = {'authkey': MSG91_AUTH_KEY, 'type': '4'}
@@ -13,8 +15,11 @@ def check_balance(request):
     return HttpResponse(response.text)
 
 def resend_otp(request):
+    phone_number = request.session.get("otp-phone-number", None)
+    if request.is_ajax():
+        phone_number = request.POST.get("phone-number")
     payload = {'authkey': MSG91_AUTH_KEY,
-                'mobile': request.POST.get("phone-number"),
+                'mobile': phone_number,
     }
     if not IS_SMS_SIMULATED:
         response = requests.post('http://control.msg91.com/api/retryotp.php', params=payload)
@@ -28,4 +33,5 @@ def resend_otp(request):
     print(data)
     if request.is_ajax():
         return JsonResponse(data)
-    return HttpResponse(data)
+    url = reverse('register_page', kwargs={'phonenumber': phone_number})  
+    return redirect(url)

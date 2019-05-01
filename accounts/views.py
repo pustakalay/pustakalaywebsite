@@ -64,7 +64,8 @@ def send_otp_view(request):
     if request.method == "POST" and form.is_valid():   
         phone_number = request.POST.get("phone") 
         data = send_otp(phone_number)
-        if "success" == data['type']:        
+        if "success" == data['type']:
+            request.session['otp-phone-number'] = phone_number    
             url = reverse('register_page', kwargs={'phonenumber':request.POST.get('phone')})  
             return redirect(url)
         else:

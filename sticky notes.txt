@@ -5,8 +5,7 @@ To Do:
 3. Change address option to add.
 4. Available at pincode? Integrate with pin code api.
 5. Password reset with OTP.
-6. Non-ajax handling for resend OTP. 
-7. multiple books add/remove ajax handling, enter quantity option.
+6. multiple books add/remove ajax handling, enter quantity option.
 	
 			 
 Before deployment : 
