@@ -4,7 +4,8 @@ from .views import (
     AddressListView,
     AddressUpdateView,
     checkout_address_create_view, 
-    checkout_address_reuse_view
+    checkout_address_reuse_view,
+    change_address
     )
 
 urlpatterns = [
@@ -13,4 +14,6 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/$', AddressUpdateView.as_view(), name='address-update'),
     url(r'^address/create/$', checkout_address_create_view, name='checkout_address_create'),
     url(r'^address/reuse/$', checkout_address_reuse_view, name='checkout_address_reuse'),
+    url(r'^address/change/$', change_address, name='change_address'),
+    
 ]
