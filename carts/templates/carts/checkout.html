@@ -25,33 +25,14 @@
             <div class='col-md-6'>
 
                     {% url "addresses:checkout_address_create" as checkout_address_create %}
-                    {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}'
+                    {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create %}'
             
                 </div>
                 <div class='col-md-6'>
                     {% url 'addresses:checkout_address_reuse' as checkout_address_reuse %}
-                    {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+                    {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri action_url=checkout_address_reuse %}
                 </div>
             
-    </div>
-    
-    {% elif not object.billing_address %}
-    <div class='row'>
-        <div class='col-12'>
-            <h2>Billing Address</h2>
-            <hr />
-        </div>
-        <div class='col-6'>
-
-            {% url "addresses:checkout_address_create" as checkout_address_create %}
-            {% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
-        </div>
-        <div class='col-6'>
-            {% url 'addresses:checkout_address_reuse' as checkout_address_reuse %}
-            {% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri  address_type='billing' action_url=checkout_address_reuse %}
-        </div>
-
-
     </div>
     {% else %}
 
@@ -66,7 +47,6 @@
     <form class='form' method='POST' action= '{% url "addresses:change_address" %}' >{% csrf_token %}
         <button type='submit' class='btn btn-warning'>Change Address</button>
     </form>
-    <p>Billing Address: {{ object.billing_address_final }}</p>
     <p>Cart Total: {{ object.cart.total }}</p>
     <p>Shipping Total: {{ object.shipping_total }}</p>
     <p>Order Total: {{ object.total }}</p>
