@@ -19,9 +19,10 @@ Items: {% for book_quantity in object.cart.book_quantity.all %}
 {% endfor %}
 </p>
 <p>Shipping Address: {{ object.shipping_address_final  }}</p>
-<p>Subtotal: {{ object.cart.total }}</p>
-<p>Shipping Total: {{ object.shipping_total }}</p>
-<p>Order Total: {{ object.total }}</p>
+<p>Subtotal: ₹{{ object.cart.subtotal }}</p>
+<p>Processing Fee: ₹50</p>
+<p>Shipping Fee: ₹{{ object.shipping_total }}</p>
+<p>Order Total: ₹{{ object.total }}</p>
 <p>Order Status: {{ object.get_status }}</p>
 </div>
 

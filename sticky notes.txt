@@ -18,6 +18,10 @@ multiple books add/remove ajax handling, enter quantity option. BUY NOW, QUANTIT
 Preview and Review and WISHLIST.
 Logging using django logging framework (requests, db)
 Password reset with OTP.
+
+Issues:
+
+Updating book prices, doesn't update book prices in the cart/checkout page.
 				 
 Before deployment : 
 

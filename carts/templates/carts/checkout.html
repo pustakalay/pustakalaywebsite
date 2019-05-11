@@ -47,11 +47,12 @@
     <form class='form' method='POST' action= '{% url "addresses:change_address" %}' >{% csrf_token %}
         <button type='submit' class='btn btn-warning'>Change Address</button>
     </form>
-    <p>Cart Total: ₹{{ object.cart.total }}</p>
-    <p>Shipping Total: ₹{{ object.shipping_total }}</p>
+    <p>Cart Total: ₹{{ object.cart.subtotal }}</p>
+    <p>Processing Fee: ₹50</p>
+    <p>Shipping Fee: ₹{{ object.shipping_total }}</p>
     <p>Order Total: ₹{{ object.total }}</p>
     <form class='form' method='POST' action="">{% csrf_token %}
-        <button type='submit' class='btn btn-success'>Checkout</button>
+        <button type='submit' class='btn btn-success'>Place Order</button>
     </form>
     {% endif %}
     {% endif %}
