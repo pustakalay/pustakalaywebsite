@@ -20,16 +20,20 @@
       <td><a href='{{ book.get_absolute_url }}'>{{ book.title }}</a>
         {% include 'booksapp/snippets/update-cart.html' with  product=book cart=cart %}
       </td>
-      <td>{{ book.price }}</td>
+      <td>₹{{ book.price }}</td>
     </tr>
     {% endfor %}
     <tr>
       <td colspan="2"></td>
-      <td><b>Subtotal</b>  <span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+      <td><b>Subtotal</b>  <span class='cart-subtotal'>₹{{ cart.subtotal }}</span></td>
     </tr>
     <tr>
       <td colspan="2"></td>
-      <td><b>Total</b>  <span class='cart-total'>{{ cart.total }}</span></td>
+      <td><b>Processing Fee</b>  <span>₹50</span></td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+      <td><b>Total</b>  <span class='cart-total'>₹{{ cart.total }}</span></td>
     </tr>
     <tr>
       <td colspan="2"></td>
