@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 class Address(models.Model):
     billing_profile = models.ForeignKey(BillingProfile)
-    nickname        = models.CharField(max_length=120, null=True, blank=True, help_text='Internal Reference Nickname')
+    address_name    = models.CharField(max_length=120, null=True, blank=True, help_text='Name this address.')
     name            = models.CharField(max_length=120, null=True, blank=True, help_text='Shipping to?')
     phone           = models.CharField(max_length=10)
     address_line_1  = models.CharField(max_length=120)
@@ -16,8 +16,8 @@ class Address(models.Model):
     postal_code     = models.CharField(max_length=120)
 
     def __str__(self):
-        if self.nickname:
-            return str(self.nickname)
+        if self.address_name:
+            return str(self.address_name)
         return str(self.address_line_1)
     
     def get_absolute_url(self):
@@ -25,8 +25,8 @@ class Address(models.Model):
     
     def get_short_address(self):
         for_name = self.name 
-        if self.nickname:
-            for_name = "{} | {},".format( self.nickname, for_name)
+        if self.address_name:
+            for_name = "{} | {},".format( self.address_name, for_name)
         return "{for_name} {phone_number} {line1}, {city}".format(
                 for_name = for_name or "",
                 phone_number = self.phone,
