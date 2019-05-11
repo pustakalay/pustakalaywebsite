@@ -12,12 +12,12 @@ Book Details Page edit -- Refer amazon and all information.
 
 To Do Backend:
 
-Add discount logic.
-Logging using django logging framework (requests, db)
+Add discount promocode logic on cart.
 Available at pincode? Integrate with pin code api.
-Password reset with OTP.
 multiple books add/remove ajax handling, enter quantity option. BUY NOW, QUANTITY SHOULD REFLECT ON BOOK PAGE.
 Preview and Review and WISHLIST.
+Logging using django logging framework (requests, db)
+Password reset with OTP.
 				 
 Before deployment : 
 

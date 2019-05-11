@@ -13,7 +13,7 @@
         <p>
             By: {{ object.author }} | Publisher: {{object.publisher}} | Language: {{ object.language }}
         </p>
-        <h2>₹ {{ object.price }}</h2><span>{% include 'booksapp/snippets/update-cart.html' with  product=object cart=cart %}</span>
+        <h2>MRP : ₹{{ object.maxretailprice }} - {{ object.discount }}% Discount = ₹{{ object.price }}</h2><span>{% include 'booksapp/snippets/update-cart.html' with  product=object cart=cart %}</span>
         <hr>
         <h3>Other Details</h3>
       

@@ -4,6 +4,7 @@
     {% endif %}
   <div class="card-body">
     <h4 class="card-title">{{ instance.title }}</h4>
+    <p> MRP : {{ instance.maxretailprice }} - {{ instance.discount }}% Discount = {{ instance.price }}</p>
     <a href="{{ instance.get_absolute_url }}" class="btn btn-primary">View</a>
         {% include 'booksapp/snippets/update-cart.html' with  product=instance cart=cart %}
   </div>

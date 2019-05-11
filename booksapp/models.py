@@ -128,6 +128,7 @@ def book_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
     instance.rank = (0.2 * instance.numberOfCopiesSold) + (0.4 * instance.pustakalayRating) + (0.1 * instance.avgcustomerRating) + (0.3 * instance.newArrival)
+    instance.price = instance.maxretailprice - ((instance.maxretailprice*instance.discount) / 100)
 
 
 pre_save.connect(book_pre_save_receiver, sender=Book)
