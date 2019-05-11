@@ -1,21 +1,23 @@
-To Do:
+To Do Frontend:
 
-2) ADD HOVERS
-3) SEARCH BUTTON CLICK REDIRECT TO HOMEPAGE
-4) mrp and discounton book details page
-5) BOOK FORMAT- HARDCOVER OR PAPERBACK
-6) BUY NOW, QUANTITY SHOULD REFLECT ON BOOK PAGE
-7) WISHLIST
-8) Order cancellation before shipment.
-8) PRODUCT INFORMATION
-  1) REFER AMAZON
+Add logo and modify header with new theme.
+Remove / reduce size of carousel on home page.
+Dropdown in Books link for Category (Take category list from Hemant/Pawde). 
+Add new theme on contact us page.
+Add new theme on login/register page.
+Add new theme on change/reset password page.
+Add new theme on account home/ order/ addresses.
+Add hover everywhere.
+Book Details Page edit -- Refer amazon and all information.
 
+To Do Backend:
 
-1. Logging using django logging framework (requests, db)
-4. Available at pincode? Integrate with pin code api.
-5. Password reset with OTP.
-6. multiple books add/remove ajax handling, enter quantity option.
-7. Preview and Review.
+Add discount logic.
+Logging using django logging framework (requests, db)
+Available at pincode? Integrate with pin code api.
+Password reset with OTP.
+multiple books add/remove ajax handling, enter quantity option. BUY NOW, QUANTITY SHOULD REFLECT ON BOOK PAGE.
+Preview and Review and WISHLIST.
 				 
 Before deployment : 
 
