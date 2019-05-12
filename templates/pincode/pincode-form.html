@@ -1,0 +1,12 @@
+{% if pincode and is_deliverable %}
+<p>Delivering to : {{pincode}} </p>
+{% elif pincode and not is_deliverable %}
+<p>Unable to deliver to : {{pincode}} </p>
+{% endif %}
+<form class="form-inline" method = 'POST' action='{% url "update-pincode" %}'>{% csrf_token %}
+    {% if next_url %}
+    <input type='hidden' name='next' value='{{ next_url }}' />
+    {% endif %}
+  {{pincode_form}}
+  <button type="submit" class="btn btn-default">Deliver here.</button>
+</form>

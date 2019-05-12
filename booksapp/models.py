@@ -76,6 +76,12 @@ class Book(models.Model):
 
     def is_inventory_available(self):
         return not self.inventory <= 0  
+    
+    def is_deliverable(self, pincode):
+        if pincode is not None and pincode=='123456':
+            return True
+        else:
+            return False 
 
     LANGUAGE_CHOICES = (
         ('HINDI', 'Hindi'),

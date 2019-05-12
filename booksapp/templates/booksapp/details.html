@@ -13,7 +13,11 @@
         <p>
             By: {{ object.author }} | Publisher: {{object.publisher}} | Language: {{ object.language }}
         </p>
-        <h2>MRP : ₹{{ object.maxretailprice }} - {{ object.discount }}% Discount = ₹{{ object.price }}</h2><span>{% include 'booksapp/snippets/update-cart.html' with  product=object cart=cart %}</span>
+        <h2>MRP : ₹{{ object.maxretailprice }} - {{ object.discount }}% Discount = ₹{{ object.price }}</h2>
+        {% if pincode and is_deliverable %}
+        <span>{% include 'booksapp/snippets/update-cart.html' with  product=object cart=cart %}</span>
+        {% endif %}
+        {% include 'pincode/pincode-form.html' with pincode_form=pincode_form pincode=pincode next_url=request.build_absolute_uri is_deliverable=is_deliverable%}
         <hr>
         <h3>Other Details</h3>
       

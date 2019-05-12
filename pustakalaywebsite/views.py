@@ -1,16 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ContactForm
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.conf import settings
+from .forms import PinCodeForm
 
 def home_page(request):
+    pincode_form = PinCodeForm(request.POST or None)
     context = {
         "title":"Pustakalay",
+        "pincode_form" : pincode_form,
+        "pincode" : request.session.get("pincode", None)
     }
     return render(request, "home_page.html", context)
+
+def update_pincode(request):
+    pincode_form = PinCodeForm(request.POST or None)
+    if pincode_form.is_valid():
+        pincode = pincode_form.cleaned_data.get("pincode")
+        request.session['pincode'] = pincode
+    if pincode_form.errors:
+        messages.error(request, pincode_form.errors)
+    return redirect(request.POST.get('next'))
 
 
 def contact_page(request):

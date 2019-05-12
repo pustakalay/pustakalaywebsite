@@ -3,6 +3,7 @@ from .models import Book
 from carts.models import Cart
 from analytics.mixins import ObjectViewedMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from pustakalaywebsite.forms import PinCodeForm
 
 class UserProductHistoryView(LoginRequiredMixin, ListView):
     template_name = "booksapp/user-history.html"
@@ -33,5 +34,8 @@ class BookDetailView(ObjectViewedMixin, DetailView):
         context = super(BookDetailView, self).get_context_data(*args, **kwargs)
         cart_obj, new_obj = Cart.objects.new_or_get(self.request)
         context['cart'] = cart_obj
+        context['pincode'] = self.request.session.get("pincode", None)
+        context['pincode_form'] = PinCodeForm()
+        context['is_deliverable'] = self.queryset.first().is_deliverable(self.request.session.get("pincode", None))
         return context
     template_name = "booksapp/details.html"

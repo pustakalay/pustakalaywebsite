@@ -14,6 +14,7 @@ To Do Backend:
 
 Add discount promocode logic on cart.
 Available at pincode? Integrate with pin code api.
+Remove items from cart at checkout only.
 multiple books add/remove ajax handling, enter quantity option. BUY NOW, QUANTITY SHOULD REFLECT ON BOOK PAGE.
 Preview and Review and WISHLIST.
 Logging using django logging framework (requests, db)
@@ -34,7 +35,7 @@ Database -- >
 static files - Amazon s3 (expensive)
 code repository -- Github is public
 MailIntegration -- Mailchimp, Sendgrid
-Payment gateway -- ?			 
+Payment gateway -- Razorpay		 
 
 Git : 
 

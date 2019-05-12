@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
-from .views import home_page, contact_page
+from .views import home_page, contact_page, update_pincode
 from accounts.views import LoginView, RegisterView
 from django.contrib.auth import views as auth_views
 from carts.views import cart_detail_api_view
@@ -27,6 +27,7 @@ from accounts.views import send_otp_view
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
+    url(r'^update-pincode/$', update_pincode, name='update-pincode'),
     url(r'^sms/', include("sms.urls", namespace='sms')),
     url(r'^orders/', include("orders.urls", namespace='orders')),
     url(r'^address/$', RedirectView.as_view(url='/addresses')),
